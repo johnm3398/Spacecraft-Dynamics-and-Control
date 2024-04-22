@@ -1,0 +1,177 @@
+# Import Relevant Libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+from ipywidgets import interact, FloatSlider 
+
+import plotly.graph_objects as go
+from plotly.offline import init_notebook_mode, iplot
+
+'''
+The definitions of Rotation Matrices
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+    - The rotation abt the 1st principle axis (x-axis) is defined by the angle 'psi'
+    - The rotation abt the 2nd principle axis (y-axis) is defined by the angle 'theta'
+    - The rotation abt the 3rd principle axis (z-axis) is defined by the angle 'phi'
+'''
+
+def rotation_matrix_x(phi):
+    """Generate rotation matrix for a roll (rotation about the x-axis)"""
+    phi = np.radians(phi)
+    c, s = np.cos(phi), np.sin(phi)
+    return np.array([[1, 0, 0], 
+                     [0, c, -s], 
+                     [0, s, c]])
+
+def rotation_matrix_y(theta):
+    """Generate rotation matrix for a pitch (rotation about the y-axis)"""
+    theta = np.radians(theta)
+    c, s = np.cos(theta), np.sin(theta)
+    return np.array([[c, 0, s], 
+                     [0, 1, 0], 
+                     [-s, 0, c]])
+
+def rotation_matrix_z(psi):
+    """Generate rotation matrix for a yaw (rotation about the z-axis)"""
+    psi = np.radians(psi)
+    c, s = np.cos(psi), np.sin(psi)
+    return np.array([[c, -s, 0], 
+                     [s, c, 0], 
+                     [0, 0, 1]])
+
+def initialize_frame(fig, frame_matrix, frame_label, colors, is_static=False):
+    """
+    Initializes vectors on the provided figure as either static or dynamic using a color dictionary.
+
+    Args:
+        fig (plotly.graph_objects.Figure) : The figure on which to add the frames.
+        frame_matrix (np.ndarray)         : The matrix representing the orientation of the frame.
+        frame_label (str)                 : Base label for the frame vectors ('N' for N-frame, 'E' for E-frame).
+        colors (dict)                     : Dictionary of colors for each vector, keyed by 'i', 'j', 'k'.
+        is_static (bool)                  : Indicates whether the frame should be added as static (with dotted lines).
+        
+    Note:
+    - This function modifies the 'fig' (Figure object) directly. 
+      In Python, objects like lists, dictionaries, and classes such as plotly.graph_objects.Figure are mutable. 
+      This means they can be changed after creation. 
+      `initialize_frame` leverages this by adding traces directly to 'fig', thus altering its state without the need to return a new object.
+    
+    - The function operates with a side effect: it changes the state of 'fig' by adding traces. 
+      It does not return a value because its primary purpose is to modify the existing figure, not produce a new output. 
+      This approach avoids the need for managing a return value, simplifying its usage and integration into other parts of your code.
+    
+    - By not returning a value, it is evident that the function's sole responsibility is to modify the provided figure, 
+      aligning with typical practices in Plotly where in-place modifications are common for updating visual properties.
+
+    """
+    
+    line_style = 'dot' if is_static else 'solid'
+    
+    suffix = " (static)" if is_static else ""
+    
+    axis_labels = ['i', 'j', 'k']  # Axis labels corresponding to 'i', 'j', 'k'
+
+    for i, axis in enumerate(axis_labels):
+        vec = frame_matrix[:, i]
+        name = f'{frame_label}_{axis}{suffix}'
+        color = colors[axis]  # Access color using axis label as key
+        fig.add_trace(go.Scatter3d(x=[0, vec[0]], 
+                                   y=[0, vec[1]], 
+                                   z=[0, vec[2]],
+                                   mode='lines+markers', 
+                                   name=name,
+                                   marker=dict(color=color),
+                                   line=dict(dash=line_style, color=color)))
+
+def setup_animation_controls(fig, frames):
+    """
+    Adds animation controls and configures layout settings for a Plotly figure.
+
+    Args:
+        fig (plotly.graph_objects.Figure): The figure to which the controls will be added.
+        frames (list): List of animation frames to be included in the slider control.
+
+    Note:
+    - Animation Controls: This function sets up interactive controls that allow users to play through or step through the animation frames at their own pace. 
+                          The 'Play' button starts the animation, while the slider allows users to jump to specific points in the animation.
+    
+    - Button Configuration: The 'Play' button is configured to start the animation immediately when clicked, using the 'immediate' mode. 
+                            It ensures that the animation runs smoothly, redrawing each frame with a duration of 100 milliseconds.
+    
+    - Slider Mechanism: The slider below the animation includes steps corresponding to each frame created in the animation sequence. 
+                        Users can move the slider to navigate to different frames, which is particularly useful for examining specific moments of the animation in detail.
+    
+    - Current Value Display: The slider also shows the current frame number as the animation plays, 
+                             providing immediate visual feedback to users on their current position within the animation sequence.
+    
+    - Layout Configuration: The function also defines the visual layout of the 3D scene. 
+                            It sets a fixed cube aspect for the axes to ensure that objects in the 3D space are displayed proportionally. 
+                            The axes are configured to not auto-scale, maintaining consistent spatial references.
+    
+    - Scene Dimensions: The overall dimensions of the figure are set to ensure sufficient space for viewing the animation comfortably, enhancing the visual experience for the user.
+    
+    - Usability and Interactivity: By integrating these controls, the function enhances the usability and interactivity of the visualization, 
+                                   making it a more effective tool for presentations or educational purposes where step-by-step analysis of movements is beneficial.
+
+    """
+    # Update the figure with animation controls
+    fig.update_layout(updatemenus=[{"type": "buttons",
+                                    "showactive": False,
+                                    "y": 1.05,
+                                    "x": 0.8,
+                                    "xanchor": 'left',
+                                    "yanchor": 'bottom',
+                                    "buttons": [{"label": 'Play',
+                                                 "method": 'animate',
+                                                 "args": [None, {"frame": {"duration": 100, "redraw": True},
+                                                                 "fromcurrent": True,
+                                                                 "mode": 'immediate'}]}]}],
+                      sliders=[{"steps": [{"method": 'animate',
+                                           "args": [[f.name], {"mode": 'immediate', 
+                                                               "frame": {"duration": 100, "redraw": True},
+                                                               "fromcurrent": True}],
+                                           "label": str(k)} for k, f in enumerate(frames)],
+                                "x": 0.1,
+                                "y": 0,
+                                "currentvalue": {"visible": True, "prefix": 'Step: '}}])
+
+    # Set additional layout settings for the 3D scene
+    fig.update_layout(width=1000,
+                      height=800,
+                      template='presentation',
+                      scene={"aspectmode": 'cube',
+                             "xaxis": {"range": [-1, 1], "autorange": False},
+                             "yaxis": {"range": [-1, 1], "autorange": False},
+                             "zaxis": {"range": [-1, 1], "autorange": False}},
+                      title='Euler Rotation Animation')
+
+def set_small_to_zero(matrix, threshold=1e-10):
+    """
+    Sets elements of the matrix that are close to zero to exactly zero.
+    
+    Args:
+    matrix (np.ndarray) : The input matrix with small values close to zero.
+    threshold (float)   : A threshold value to determine "closeness" to zero.
+    
+    Returns:
+    np.ndarray: The modified matrix with values close to zero set to exactly zero.
+
+    Note:
+    - Floating-Point Precision: In numerical computations, especially with floating-point arithmetic, 
+                                operations can result in very small numbers close to zero (e.g., 4e-17) instead of exact zeros. 
+                                This is due to the inherent limitations in the precision of floating-point representations, 
+                                which cannot exactly represent all real numbers.
+
+    - Numerical Stability: These small but non-zero numbers can affect the stability and accuracy of numerical algorithms, 
+                           especially those that expect true zero values. 
+                           Setting these values to zero can help in preventing unexpected behavior in such computations.
+
+    - Threshold Determination: The threshold for considering a value "close enough" to zero is adjustable, 
+                               allowing users to define what is practically zero in the context of their specific application. 
+                               This flexibility is crucial for tailoring the function to different numerical precision requirements.
+
+    - In-place Modification: The function modifies the matrix in-place for efficiency, directly altering the input matrix. 
+                             Users should be aware that the original data will be changed.
+    """
+    matrix[np.abs(matrix) < threshold] = 0
+    return matrix
