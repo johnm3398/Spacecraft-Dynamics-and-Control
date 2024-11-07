@@ -63,7 +63,7 @@ def rotation_matrix_z(psi, transformation_type='passive'):
     
     return matrix
 
-def EulerAngles_to_DCM(angles, sequence, transformation_type='passive'):
+def Euler_to_DCM(angles, sequence, transformation_type='passive'):
     """
     Converts a set of Euler angles into a Direction Cosine Matrix (DCM)
     based on the specified rotation sequence.
@@ -132,7 +132,7 @@ def EulerAngles_to_DCM(angles, sequence, transformation_type='passive'):
 
     return DCM
 
-def DCM_to_EulerAngles(DCM, sequence, transformation_type='passive'):
+def DCM_to_Euler(DCM, sequence, transformation_type='passive'):
     """
     Converts a Direction Cosine Matrix (DCM) into a set of Euler angles
     based on the specified rotation sequence.
@@ -255,3 +255,298 @@ def DCM_to_EulerAngles(DCM, sequence, transformation_type='passive'):
     angles_deg = np.rad2deg([theta_1, theta_2, theta_3])
 
     return tuple(angles_deg)
+
+def Bmat_Euler(angles, sequence):
+    """
+    Computes the B matrix for transforming body angular velocities to Euler angle rates
+    based on the specified rotation sequence and Euler angles.
+
+    Args:
+        angles (list or tuple): Euler angles [theta_1, theta_2, theta_3] in degrees.
+        sequence (str): The rotation sequence as a string (e.g., '321', 'ZYX').
+
+    Returns:
+        numpy.ndarray: The 3x3 B matrix that transforms body rates to Euler angle rates 
+        for the specified rotation sequence and angles.
+
+    Notes:
+        - The function calculates the B matrix for the specified rotation sequence and
+          angles, accounting for potential singularities at certain Euler angle values.
+        - The B matrix is used to relate body angular velocity `ω` to Euler angle rates `dθ/dt`
+          as follows:
+          
+            dθ/dt = B * ω
+
+        - It supports both proper Euler angles and Tait-Bryan angles.
+        - The `sequence` should specify the rotation axes in a 3-character string format 
+          (e.g., '123', '321', '232').
+        - Angles are input in degrees, but internal computations are performed in radians.
+        - Returns a `ValueError` if the angles produce a singularity (e.g., cos(θ₂) = 0).
+    """
+    # Validate input lengths
+    if len(angles) != 3:
+        raise ValueError("The 'angles' parameter must have three elements.")
+    if len(sequence) != 3:
+        raise ValueError("The 'sequence' parameter must be a string of three characters.")
+
+    # Convert input angles from degrees to radians
+    angles_rad = np.deg2rad(angles)
+    theta_1, theta_2, theta_3 = angles_rad  # Euler angles in radians
+
+    # Map axes to indices (1-based indexing for clarity)
+    axis_map = {'1': 1, '2': 2, '3': 3,
+                'x': 1, 'y': 2, 'z': 3}
+
+    # Convert sequence to indices
+    sequence = sequence.lower()
+    try:
+        axes = [axis_map[axis] for axis in sequence]
+    except KeyError as e:
+        raise ValueError(f"Invalid axis '{e.args[0]}' in rotation sequence.")
+
+    # Precompute trigonometric functions with subscripts matching theta_1, theta_2, theta_3
+    s1 = np.sin(theta_1)
+    c1 = np.cos(theta_1)
+    s2 = np.sin(theta_2)
+    c2 = np.cos(theta_2)
+    s3 = np.sin(theta_3)
+    c3 = np.cos(theta_3)
+
+    # Initialize the B matrix
+    B = np.zeros((3, 3))
+
+    # Define a small threshold to avoid division by zero
+    epsilon = np.finfo(float).eps
+
+    # Compute the B matrix based on the rotation sequence
+    # The indices in B correspond to the 1-based axis indices minus 1 (for zero-based indexing)
+    if sequence == '121':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [ 0,     s3,     c3]
+        B[1, :] = [ 0,  s2*c3, -s2*s3]
+        B[2, :] = [s2, -c2*s3, -c2*c3]
+        B /= s2
+        
+    elif sequence == '123':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [    c3,    -s3,  0]
+        B[1, :] = [ c2*s3,  c2*c3,  0]
+        B[2, :] = [-s2*c3,  s2*s3, c2]
+        B /= c2
+        
+    elif sequence == '131':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [ 0,   -c3,     s3]
+        B[1, :] = [ 0, s2*s3,  s2*c3]
+        B[2, :] = [s2, c2*c3, -c2*s3]
+        B /= s2
+        
+    elif sequence == '132':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [    c3,  0,    s3]
+        B[1, :] = [-c2*s3,  0, c2*c3]
+        B[2, :] = [ s2*c3, c2, s2*s3]
+        B /= c2
+        
+    elif sequence == '212':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [    s3,  0,   -c3]
+        B[1, :] = [ s2*c3,  0, s2*s3]
+        B[2, :] = [-c2*s3, s2, c2*c3]
+        B /= s2
+        
+    elif sequence == '213':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [   s3,     c3,  0]
+        B[1, :] = [c2*c3, -c2*s3,  0]
+        B[2, :] = [s2*s3,  s2*c3, c2]
+        B /= c2
+        
+    elif sequence == '231':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [ 0,     c3,   -s3]
+        B[1, :] = [ 0,  c2*s3, c2*c3]
+        B[2, :] = [c2, -s2*c3, s2*s3]
+        B /= c2
+    
+    elif sequence == '232':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [    c3,  0,     s3]
+        B[1, :] = [-s2*s3,  0,  s2*c3]
+        B[2, :] = [-c2*c3, s2, -c2*s3]
+        B /= s2
+        
+    elif sequence == '312':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [  -s3,  0,     c3]
+        B[1, :] = [c2*c3,  0,  c2*s3]
+        B[2, :] = [s2*s3, c2, -s2*c3]
+        B /= c2
+        
+    elif sequence == '313':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [    s3,     c3,  0]
+        B[1, :] = [ c3*s2, -s3*s2,  0]
+        B[2, :] = [-s3*c2, -c3*c2, s2]
+        B /= s2
+        
+    elif sequence == '321':
+        if abs(c2) < epsilon:
+            raise ValueError("Singularity encountered: cos(theta_2) is zero.")
+        B[0, :] = [ 0,    s3,     c3]
+        B[1, :] = [ 0, c2*c3, -c2*s3]
+        B[2, :] = [c2, s2*s3,  s2*c3]
+        B /= c2
+        
+    elif sequence == '323':
+        if abs(s2) < epsilon:
+            raise ValueError("Singularity encountered: sin(theta_2) is zero.")
+        B[0, :] = [  -c3,     s3,  0]
+        B[1, :] = [s2*s3,  s2*c3,  0]
+        B[2, :] = [c2*c3, -c2*s3, s2]
+        B /= s2
+        
+    else:
+        raise NotImplementedError(f"Rotation sequence '{sequence}' is not implemented.")
+
+    return B
+
+def BInvmat_Euler(angles, sequence):
+    """
+    Computes the inverse B matrix (B_inv) for transforming Euler angle rates 
+    to body angular velocities, based on the specified rotation sequence and 
+    Euler angles.
+
+    Args:
+        angles (list or tuple): Euler angles [theta_1, theta_2, theta_3] in degrees.
+        sequence (str): The rotation sequence as a string (e.g., '321', 'ZYX').
+
+    Returns:
+        numpy.ndarray: The 3x3 B_inv matrix that transforms Euler angle rates to 
+        body angular velocities for the specified rotation sequence and angles.
+
+    Notes:
+        - This function calculates the inverse B matrix, B_inv, which relates Euler angle 
+          rates `dθ/dt` to body angular velocity `ω` as follows:
+          
+            ω = B_inv * dθ/dt
+
+        - The function supports both proper Euler angles and Tait-Bryan angles.
+        - The `sequence` parameter should specify the rotation axes in a 3-character string 
+          format (e.g., '123', '321', '232').
+        - Angles are input in degrees; internal computations are performed in radians.
+        - This function is not prone to singularities, as it does not involve divisions 
+          by trigonometric terms that vanish at certain Euler angle values.
+        - A `NotImplementedError` is raised if an unsupported rotation sequence is specified.
+    """
+    # Validate input lengths
+    if len(angles) != 3:
+        raise ValueError("The 'angles' parameter must have three elements.")
+    if len(sequence) != 3:
+        raise ValueError("The 'sequence' parameter must be a string of three characters.")
+
+    # Convert input angles from degrees to radians
+    angles_rad = np.deg2rad(angles)
+    theta_1, theta_2, theta_3 = angles_rad  # Euler angles in radians
+
+    # Map axes to indices (1-based indexing for clarity)
+    axis_map = {'1': 1, '2': 2, '3': 3,
+                'x': 1, 'y': 2, 'z': 3}
+
+    # Convert sequence to indices
+    sequence = sequence.lower()
+    try:
+        axes = [axis_map[axis] for axis in sequence]
+    except KeyError as e:
+        raise ValueError(f"Invalid axis '{e.args[0]}' in rotation sequence.")
+
+    # Precompute trigonometric functions with subscripts matching theta_1, theta_2, theta_3
+    s1 = np.sin(theta_1)
+    c1 = np.cos(theta_1)
+    s2 = np.sin(theta_2)
+    c2 = np.cos(theta_2)
+    s3 = np.sin(theta_3)
+    c3 = np.cos(theta_3)
+
+    # Initialize the B matrix
+    B_inv = np.zeros((3, 3))
+
+    # Define a small threshold to avoid division by zero
+    epsilon = np.finfo(float).eps
+
+    # Compute the B Inverse matrix based on the rotation sequence
+    # The indices in B correspond to the 1-based axis indices minus 1 (for zero-based indexing)
+    if sequence == '121':
+        B_inv[0, :] = [   c2,   0,   1]
+        B_inv[1, :] = [s2*s3,  c3,   0]
+        B_inv[2, :] = [s2*c3, -s3,   0]
+        
+    elif sequence == '123':
+        B_inv[0, :] = [ c2*c3,  s3,   0]
+        B_inv[1, :] = [-c2*s3,  c3,   0]
+        B_inv[2, :] = [    s2,   0,   1]
+        
+    elif sequence == '131':
+        B_inv[0, :] = [    c2,   0,   1]
+        B_inv[1, :] = [-s2*c3,  s3,   0]
+        B_inv[2, :] = [ s2*s3,  c3,   0]
+        
+    elif sequence == '132':
+        B_inv[0, :] = [ c2*c3, -s3,   0]
+        B_inv[1, :] = [   -s2,   0,   1]
+        B_inv[2, :] = [ c2*s3,  c3,   0]
+        
+    elif sequence == '212':
+        B_inv[0, :] = [ s2*s3,  c3,   0]
+        B_inv[1, :] = [    c2,   0,   1]
+        B_inv[2, :] = [-s2*c3,  s3,   0]
+        
+    elif sequence == '213':
+        B_inv[0, :] = [ c2*s3,  c3,   0]
+        B_inv[1, :] = [ c2*c3, -s3,   0]
+        B_inv[2, :] = [   -s2,   0,   1]
+        
+    elif sequence == '231':
+        B_inv[0, :] = [    s2,   0,   1]
+        B_inv[1, :] = [ c2*c3,  s3,   0]
+        B_inv[2, :] = [-c2*s3,  c3,   0]
+    
+    elif sequence == '232':
+        B_inv[0, :] = [ s2*c3, -s3,   0]
+        B_inv[1, :] = [    c2,   0,   1]
+        B_inv[2, :] = [ s2*s3,  c3,   0]
+        
+    elif sequence == '312':
+        B_inv[0, :] = [-c2*s3,  c3,   0]
+        B_inv[1, :] = [    s2,   0,   1]
+        B_inv[2, :] = [ c2*c3,  s3,   0]
+        
+    elif sequence == '313':
+        B_inv[0, :] = [ s3*s2,  c3,   0]
+        B_inv[1, :] = [ s2*c3, -s3,   0]
+        B_inv[2, :] = [    c2,   0,   1]
+        
+    elif sequence == '321':
+        B_inv[0, :] = [   -s2,   0,   1]
+        B_inv[1, :] = [ c2*s3,  c3,   0]
+        B_inv[2, :] = [ c2*c3, -s3,   0]
+        
+    elif sequence == '323':
+        B_inv[0, :] = [-s2*c3,  s3,   0]
+        B_inv[1, :] = [ s2*s3,  c3,   0]
+        B_inv[2, :] = [    c2,   0,   1]
+        
+    else:
+        raise NotImplementedError(f"Rotation sequence '{sequence}' is not implemented.")
+
+    return B_inv
