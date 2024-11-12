@@ -23,8 +23,6 @@ def validate_vec3(v):
     if not all(isinstance(element, (int, float)) for element in v):
         raise ValueError("All elements of the input vector must be numeric (int or float).")
 
-
-
 def skew_symmetric(v):
     """
     Returns the skew-symmetric matrix of a 3-element vector.
