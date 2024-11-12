@@ -2,16 +2,27 @@ import numpy as np
 
 def validate_vec3(v):
     """
-    Validates that the input vector has exactly 3 elements.
+    Validates that the input vector has exactly 3 elements and that each element is numeric.
 
     Args:
         v (array-like): The input vector to check.
 
     Raises:
-        ValueError: If the input vector does not have exactly 3 elements.
+        ValueError: If the input vector does not have exactly 3 elements or if elements are not numeric.
+        TypeError: If the input is not a list or a NumPy array.
     """
+    # Check that v is a list or numpy array
+    if not isinstance(v, (list, np.ndarray)):
+        raise TypeError("Input vector must be a list or a NumPy array.")
+    
+    # Check that v has exactly 3 elements
     if len(v) != 3:
         raise ValueError("Input vector must have exactly 3 elements.")
+    
+    # Check that all elements in v are numbers (integers or floats)
+    if not all(isinstance(element, (int, float)) for element in v):
+        raise ValueError("All elements of the input vector must be numeric (int or float).")
+
 
 
 def skew_symmetric(v):
