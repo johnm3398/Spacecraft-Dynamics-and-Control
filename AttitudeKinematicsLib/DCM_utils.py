@@ -38,9 +38,9 @@ def validate_vec4(v):
     if not isinstance(v, (list, np.ndarray)):
         raise TypeError("Input vector must be a list or a NumPy array.")
     
-    # Check that v has exactly 3 elements
+    # Check that v has exactly 4 elements
     if len(v) != 4:
-        raise ValueError("Input vector must have exactly 3 elements.")
+        raise ValueError("Input vector must have exactly 4 elements.")
     
     # Check that all elements in v are numbers (integers or floats)
     if not all(isinstance(element, (int, float)) for element in v):
