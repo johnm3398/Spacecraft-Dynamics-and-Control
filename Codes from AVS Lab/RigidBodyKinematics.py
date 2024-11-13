@@ -592,26 +592,26 @@ def BinvEP(q):
     BinvEP(Q)
 
     	B = BinvEP(Q) returns the 3x4 matrix which relates
-    	the derivative of Euler parameter vector Q to the
+    	the derivative of euler parameter vector Q to the
     	body angular velocity vector w.
 
     		w = 2 [B(Q)]^(-1) dQ/dt
     """
-    B = np.matrix("0. 0. 0. 0.;0. 0. 0. 0; 0. 0. 0. 0.");
-    B[0,0] = -q[1,0];
-    B[0,1] =  q[0,0];
-    B[0,2] =  q[3,0];
-    B[0,3] = -q[2,0];
-    B[1,0] = -q[2,0];
-    B[1,1] = -q[3,0];
-    B[1,2] =  q[0,0];
-    B[1,3] =  q[1,0];
-    B[2,0] = -q[3,0];
-    B[2,1] =  q[2,0];
-    B[2,2] = -q[1,0];
-    B[2,3] =  q[0,0];
+    B = np.zeros([3, 4])
+    B[0, 0] = -q[1]
+    B[0, 1] = q[0]
+    B[0, 2] = q[3]
+    B[0, 3] = -q[2]
+    B[1] = -q[2]
+    B[1, 1] = -q[3]
+    B[1, 2] = q[0]
+    B[1, 3] = q[1]
+    B[2] = -q[3]
+    B[2, 1] = q[2]
+    B[2, 2] = -q[1]
+    B[2, 3] = q[0]
 
-    return B;
+    return B
 
 def BinvEuler121(q):
     """
@@ -1063,21 +1063,21 @@ def BmatEP(q):
     		dQ/dt = 1/2 [B(Q)] w
     """
 
-    B = np.matrix("0. 0. 0.;0. 0. 0.;0. 0. 0.;0. 0. 0.");
-    B[0,0] = -q[1,0];
-    B[0,1] = -q[2,0];
-    B[0,2] = -q[3,0];
-    B[1,0] = q[0,0];
-    B[1,1] = -q[3,0];
-    B[1,2] = q[2,0];
-    B[2,0] = q[3,0];
-    B[2,1] = q[0,0];
-    B[2,2] = -q[1,0];
-    B[3,0] = -q[2,0];
-    B[3,1] = q[1,0];
-    B[3,2] = q[0,0];
+    B = np.zeros([4, 3])
+    B[0, 0] = -q[1]
+    B[0, 1] = -q[2]
+    B[0, 2] = -q[3]
+    B[1, 0] = q[0]
+    B[1, 1] = -q[3]
+    B[1, 2] = q[2]
+    B[2, 0] = q[3]
+    B[2, 1] = q[0]
+    B[2, 2] = -q[1]
+    B[3, 0] = -q[2]
+    B[3, 1] = q[1]
+    B[3, 2] = q[0]
 
-    return B;
+    return B
 
 def BmatEuler121(q):
     """
@@ -2634,33 +2634,30 @@ def subPRV(q1,q2):
 
 
 def EP2C(q):
-	"""
-	EP2C	
-	
+    """
+	EP2C
+
         C = EP2C(Q) returns the direction math.cosine
-        matrix in terms of the 4x1 Euler parameter vector
-        Q.  The first element is the non-dimensional Euler
-        parameter, while the remain three elements form 
-        the Eulerparameter vector.
+        matrix in terms of the 4x1 euler parameter vector
+        Q.  The first element is the non-dimensional euler
+        parameter, while the remain three elements form
+        the eulerparameter vector.
 	"""
-	
-	q0 = q[0,0];
-	q1 = q[1,0];
-	q2 = q[2,0];
-	q3 = q[3,0];
-	
-	C = np.matrix("1. 0. 0.;0. 1. 0.;0. 0. 1.");
-	C[0,0] = q0*q0+q1*q1-q2*q2-q3*q3;
-	C[0,1] = 2*(q1*q2+q0*q3);
-	C[0,2] = 2*(q1*q3-q0*q2);
-	C[1,0] = 2*(q1*q2-q0*q3);
-	C[1,1] = q0*q0-q1*q1+q2*q2-q3*q3;
-	C[1,2] = 2*(q2*q3+q0*q1);
-	C[2,0] = 2*(q1*q3 + q0*q2);
-	C[2,1] = 2*(q2*q3-q0*q1);
-	C[2,2] = q0*q0-q1*q1-q2*q2+q3*q3;
-	
-	return C;
+    q0 = q[0]
+    q1 = q[1]
+    q2 = q[2]
+    q3 = q[3]
+    C = np.zeros([3, 3])
+    C[0, 0] = q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3
+    C[0, 1] = 2 * (q1 * q2 + q0 * q3)
+    C[0, 2] = 2 * (q1 * q3 - q0 * q2)
+    C[1, 0] = 2 * (q1 * q2 - q0 * q3)
+    C[1, 1] = q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3
+    C[1, 2] = 2 * (q2 * q3 + q0 * q1)
+    C[2, 0] = 2 * (q1 * q3 + q0 * q2)
+    C[2, 1] = 2 * (q2 * q3 - q0 * q1)
+    C[2, 2] = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3
+    return C
 
 
 def EP2Euler121(q):
