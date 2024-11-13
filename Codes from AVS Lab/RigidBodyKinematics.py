@@ -275,15 +275,15 @@ def C2PRV(C):
     	phi (0<= phi <= Pi)
     """
 
-    cp = (np.trace(C)-1)/2;
-    p = math.acos(cp);
-    sp = p/2/math.sin(p);
-    q = np.matrix('0.;0.;0.');
-    q[0,0] = (C[1,2]-C[2,1])*sp;
-    q[1,0] = (C[2,0]-C[0,2])*sp;
-    q[2,0] = (C[0,1]-C[1,0])*sp;
-
-    return q;
+    cp = (np.trace(C) - 1) / 2
+    p = np.arccos(cp)
+    sp = p / 2. / np.sin(p)
+    q = np.array([
+        (C[1, 2] - C[2, 1]) * sp,
+        (C[2, 0] - C[0, 2]) * sp,
+        (C[0, 1] - C[1, 0]) * sp
+    ])
+    return q
 
 
 
@@ -1499,20 +1499,20 @@ def BmatPRV(q):
     		dQ/dt = [B(Q)] w
     """
 
-    p = math.sqrt(q.T*q);
-    c = 1/p/p*(1-p/2/math.tan(p/2));
-    B = np.matrix("0. 0. 0.;0. 0. 0.;0. 0. 0.");
-    B[0,0] = 1- c*(q[1,0]*q[1,0]+q[2,0]*q[2,0]);
-    B[0,1] = -q[2,0]/2 + c*(q[0,0]*q[1,0]);
-    B[0,2] = q[1,0]/2 + c*(q[0,0]*q[2,0]);
-    B[1,0] = q[2,0]/2 + c*(q[0,0]*q[1,0]);
-    B[1,1] = 1 - c*(q[0,0]*q[0,0]+q[2,0]*q[2,0]);
-    B[1,2] = -q[0,0]/2 + c*(q[1,0]*q[2,0]);
-    B[2,0] = -q[1,0]/2 + c*(q[0,0]*q[2,0]);
-    B[2,1] = q[0,0]/2 + c*(q[1,0]*q[2,0]);
-    B[2,2] = 1-c*(q[0,0]*q[0,0]+q[1,0]*q[1,0]);
+    p = np.linalg.norm(q)
+    c = 1 / p / p * (1 - p / 2 / math.tan(p / 2))
+    B = np.zeros([3, 3])
+    B[0, 0] = 1 - c * (q[1] * q[1] + q[2] * q[2])
+    B[0, 1] = -q[2] / 2 + c * (q[0] * q[1])
+    B[0, 2] = q[1] / 2 + c * (q[0] * q[2])
+    B[1, 0] = q[2] / 2 + c * (q[0] * q[1])
+    B[1, 1] = 1 - c * (q[0] * q[0] + q[2] * q[2])
+    B[1, 2] = -q[0] / 2 + c * (q[1] * q[2])
+    B[2, 0] = -q[1] / 2 + c * (q[0] * q[2])
+    B[2, 1] = q[0] / 2 + c * (q[1] * q[2])
+    B[2, 2] = 1 - c * (q[0] * q[0] + q[1] * q[1])
 
-    return B;
+    return B
 
 def dEP(q,w):
     """
@@ -2147,26 +2147,29 @@ def PRV2C(q):
     	Q.
     """
 
-    q0 = math.sqrt(q.T*q);
-    q1 = q[0,0]/q0;
-    q2 = q[1,0]/q0;
-    q3 = q[2,0]/q0;
-
-    cp= math.cos(q0);
-    sp= math.sin(q0);
-    d1 = 1-cp;
-    C = np.matrix("0.,0.,0.;0.,0.,0.;0.,0.,0.");
-    C[0,0] = q1*q1*d1+cp;
-    C[0,1] = q1*q2*d1+q3*sp;
-    C[0,2] = q1*q3*d1-q2*sp;
-    C[1,0] = q2*q1*d1-q3*sp;
-    C[1,1] = q2*q2*d1+cp;
-    C[1,2] = q2*q3*d1+q1*sp;
-    C[2,0] = q3*q1*d1+q2*sp;
-    C[2,1] = q3*q2*d1-q1*sp;
-    C[2,2] = q3*q3*d1+cp;
-
-    return C;
+    q0 = np.linalg.norm(q)
+    if q0 == 0.0:
+        q1 = q[0]
+        q2 = q[1]
+        q3 = q[2]
+    else:
+        q1 = q[0] / q0
+        q2 = q[1] / q0
+        q3 = q[2] / q0
+    cp = np.cos(q0)
+    sp = np.sin(q0)
+    d1 = 1 - cp
+    C = np.zeros((3, 3))
+    C[0, 0] = q1 * q1 * d1 + cp
+    C[0, 1] = q1 * q2 * d1 + q3 * sp
+    C[0, 2] = q1 * q3 * d1 - q2 * sp
+    C[1, 0] = q2 * q1 * d1 - q3 * sp
+    C[1, 1] = q2 * q2 * d1 + cp
+    C[1, 2] = q2 * q3 * d1 + q1 * sp
+    C[2, 0] = q3 * q1 * d1 + q2 * sp
+    C[2, 1] = q3 * q2 * d1 - q1 * sp
+    C[2, 2] = q3 * q3 * d1 + cp
+    return C
 
 def PRV2EP(qq1):
     """"
