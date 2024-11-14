@@ -1,7 +1,7 @@
 import numpy as np
 
-from DCM_utils import *
-from EulerRodriguesParameters import DCM_to_EP
+from .DCM_utils import *
+from .EulerRodriguesParameters import DCM_to_EP
 
 def MRP_to_DCM(sigma):
     """
