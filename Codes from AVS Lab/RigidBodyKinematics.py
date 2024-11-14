@@ -235,17 +235,16 @@ def C2Gibbs(C):
     C2Gibbs
 
     	Q = C2Gibbs(C) translates the 3x3 direction cosine matrix
-    	C into the corresponding 3x1 Gibbs vector Q.
+    	C into the corresponding 3x1 gibbs vector Q.
     """
 
-    b = C2EP(C);
+    b = C2EP(C)
 
-    q = np.matrix('0.;0.;0.');
-    q[0,0] = b[1,0]/b[0,0];
-    q[1,0] = b[2,0]/b[0,0];
-    q[2,0] = b[3,0]/b[0,0];
-
-    return q;
+    q0 = b[1] / b[0]
+    q1 = b[2] / b[0]
+    q2 = b[3] / b[0]
+    q = np.array([q0, q1, q2])
+    return q
 
 def C2MRP(C):
     """
@@ -978,25 +977,25 @@ def BinvGibbs(q):
     BinvGibbs(Q)
 
     	B = BinvGibbs(Q) returns the 3x3 matrix which relates
-    	the derivative of Gibbs vector Q to the
+    	the derivative of gibbs vector Q to the
     	body angular velocity vector w.
 
     		w = 2 [B(Q)]^(-1) dQ/dt
     """
 
-    B = np.matrix("0. 0. 0.;0. 0. 0.;0. 0. 0.");
-    B[0,0] = 1;
-    B[0,1] = q[2,0];
-    B[0,2] = -q[1,0];
-    B[1,0] = -q[2,0];
-    B[1,1] = 1;
-    B[1,2] = q[0,0];
-    B[2,0] = q[1,0];
-    B[2,1] = -q[0,0];
-    B[2,2] = 1;
-    B = B/(1+(q.T*q)[0,0]);
+    B = np.zeros([3, 3])
+    B[0, 0] = 1
+    B[0, 1] = q[2]
+    B[0, 2] = -q[1]
+    B[1, 0] = -q[2]
+    B[1, 1] = 1
+    B[1, 2] = q[0]
+    B[2, 0] = q[1]
+    B[2, 1] = -q[0]
+    B[2, 2] = 1
+    B = B / (1 + np.dot(q, q))
 
-    return B;
+    return B
 
 def BinvMRP(q):
     """
@@ -1450,18 +1449,18 @@ def BmatGibbs(q):
     		dQ/dt = 1/2 [B(Q)] w
     """
 
-    B = np.matrix("0. 0. 0.;0. 0. 0.;0. 0. 0.");
-    B[0,0] = 1+q[0,0]*q[0,0];
-    B[0,1] = q[0,0]*q[1,0]-q[2,0];
-    B[0,2] = q[0,0]*q[2,0]+q[1,0];
-    B[1,0] = q[1,0]*q[0,0]+q[2,0];
-    B[1,1] = 1+q[1,0]*q[1,0];
-    B[1,2] = q[1,0]*q[2,0]-q[0,0];
-    B[2,0] = q[2,0]*q[0,0]-q[1,0];
-    B[2,1] = q[2,0]*q[1,0]+q[0,0];
-    B[2,2] = 1+q[2,0]*q[2,0];
+    B = np.zeros([3, 3])
+    B[0, 0] = 1 + q[0] * q[0]
+    B[0, 1] = q[0] * q[1] - q[2]
+    B[0, 2] = q[0] * q[2] + q[1]
+    B[1, 0] = q[1] * q[0] + q[2]
+    B[1, 1] = 1 + q[1] * q[1]
+    B[1, 2] = q[1] * q[2] - q[0]
+    B[2, 0] = q[2] * q[0] - q[1]
+    B[2, 1] = q[2] * q[1] + q[0]
+    B[2, 2] = 1 + q[2] * q[2]
 
-    return B;
+    return B
 
 def BmatMRP(q):
     """
@@ -1738,32 +1737,31 @@ def elem2PRV(r):
 
     return q;
 
-def Gibbs2C(q):
+def gibbs2C(q):
     """
-    Gibbs2C
+    gibbs2C
 
-    	C = Gibbs2C(Q) returns the direction cosine
-    	matrix in terms of the 3x1 Gibbs vector Q.
+    	C = gibbs2C(Q) returns the direction cosine
+    	matrix in terms of the 3x1 gibbs vector Q.
     """
 
-    q1 = q[0,0];
-    q2 = q[1,0];
-    q3 = q[2,0];
-
-    d1 = (q.T*q)[0,0];
-    C = np.matrix("0. 0. 0.;0. 0. 0.;0. 0. 0.");
-    C[0,0] = 1+2*q1*q1-d1;
-    C[0,1] = 2*(q1*q2+q3);
-    C[0,2] = 2*(q1*q3-q2);
-    C[1,0] = 2*(q2*q1-q3);
-    C[1,1] = 1+2*q2*q2-d1;
-    C[1,2] = 2*(q2*q3+q1);
-    C[2,0] = 2*(q3*q1+q2);
-    C[2,1] = 2*(q3*q2-q1);
-    C[2,2] = 1+2*q3*q3-d1;
-    C = C/(1+d1);
-
-    return C;
+    q1 = q[0]
+    q2 = q[1]
+    q3 = q[2]
+    qm = np.linalg.norm(q)
+    d1 = qm * qm
+    C = np.zeros([3, 3])
+    C[0, 0] = 1 + 2 * q1 * q1 - d1
+    C[0, 1] = 2 * (q1 * q2 + q3)
+    C[0, 2] = 2 * (q1 * q3 - q2)
+    C[1, 0] = 2 * (q2 * q1 - q3)
+    C[1, 1] = 1 + 2 * q2 * q2 - d1
+    C[1, 2] = 2 * (q2 * q3 + q1)
+    C[2, 0] = 2 * (q3 * q1 + q2)
+    C[2, 1] = 2 * (q3 * q2 - q1)
+    C[2, 2] = 1 + 2 * q3 * q3 - d1
+    C = C / (1 + d1)
+    return C
 
 def Gibbs2EP(q1):
     """
