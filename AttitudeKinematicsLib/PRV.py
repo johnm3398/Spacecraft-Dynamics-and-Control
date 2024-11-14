@@ -1,6 +1,6 @@
 import numpy as np
 
-from DCM_utils import *
+from .DCM_utils import *
 
 def PRV_to_DCM(e, phi_deg=None):
     """
