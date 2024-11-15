@@ -64,6 +64,9 @@ def DCM_to_CRP(dcm):
         >>> print(q)
         [0. 0. 0.]
     """
+    # Validate Input DCM
+    validate_DCM(C)
+
     # Convert DCM to quaternion
     b = DCM_to_EP(dcm)  # b should be a 4-element array [q0, q1, q2, q3]
 

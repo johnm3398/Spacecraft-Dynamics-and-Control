@@ -110,10 +110,8 @@ def DCM_to_MRP(C):
         [0. 0. 0.]
 
     """
-    # Ensure C is a valid 3×3 numpy array
-    C = np.asarray(C, dtype=float)
-    if C.shape != (3, 3):
-        raise ValueError("Input matrix C must be a 3×3 matrix.")
+    # Validate Input DCM
+    validate_DCM(C)
 
     # Convert DCM to quaternion [q0, q1, q2, q3]
     q = DCM_to_EP(C)

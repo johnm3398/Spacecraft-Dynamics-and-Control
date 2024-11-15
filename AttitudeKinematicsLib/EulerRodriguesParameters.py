@@ -47,6 +47,9 @@ def DCM_to_EP(C):
     Returns:
         np.array: A quaternion represented as a numpy array of size 4, with the scalar component as the first element.
     """
+    # Validate Input DCM
+    validate_DCM(C)
+
     trace = np.trace(C)
     q_squared = np.zeros(4)
     q_squared[0] = (1.0 + trace) / 4.0

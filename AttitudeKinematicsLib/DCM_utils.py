@@ -68,3 +68,50 @@ def skew_symmetric(v):
                             [-v2,  v1,   0]])
 
     return v_tilde_mat
+
+def validate_DCM(dcm):
+    """
+    Validates if the given matrix is a proper Direction Cosine Matrix (DCM).
+
+    A valid DCM must satisfy the following properties:
+        1. It must be a 3x3 matrix.
+        2. Its determinant must be +1 (proper rotation matrix).
+        3. Each row and column must have a unit norm (orthonormality).
+        4. The product of the DCM with its transpose must yield the identity matrix.
+
+    Args:
+        dcm (np.ndarray): A 3x3 matrix representing a DCM.
+
+    Raises:
+        ValueError: If the DCM fails any of the validation checks.
+    """
+    # Ensure input is a NumPy array
+    dcm = np.array(dcm, dtype=float)
+
+    # Check if the DCM is 3x3
+    if dcm.shape != (3, 3):
+        raise ValueError("DCM must be a 3x3 matrix.")
+
+    # Check if determinant is close to +1
+    det = np.linalg.det(dcm)
+    if not np.isclose(det, 1.0, atol=1e-8):
+        raise ValueError(f"Determinant of DCM must be +1. Found: {det}")
+
+    # Check if rows and columns are unit vectors (orthonormality)
+    for i in range(3):
+        row_norm = np.linalg.norm(dcm[i, :])
+        col_norm = np.linalg.norm(dcm[:, i])
+        if not (np.isclose(row_norm, 1.0, atol=1e-8) and np.isclose(col_norm, 1.0, atol=1e-8)):
+            raise ValueError(f"Row or column {i+1} of the DCM is not a unit vector.")
+
+    # Check if the DCM multiplied by its transpose yields the identity matrix
+    identity_check = np.dot(dcm, dcm.T)
+    if not np.allclose(identity_check, np.eye(3), atol=1e-8):
+        raise ValueError("The product of DCM and its transpose is not the identity matrix.")
+
+    # Check if the DCM preserves handedness (right-handed coordinate system)
+    handedness_check = np.dot(dcm[0], np.cross(dcm[1], dcm[2]))
+    if not np.isclose(handedness_check, 1.0, atol=1e-8):
+        raise ValueError("The DCM does not preserve handedness (right-handed system check failed).")
+
+    print("The DCM is valid.")

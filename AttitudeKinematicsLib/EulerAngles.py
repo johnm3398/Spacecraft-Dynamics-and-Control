@@ -1,5 +1,7 @@
 import numpy as np
 
+from .DCM_utils import *
+
 def rotation_matrix_x(phi, transformation_type='passive'):
     """Generate rotation matrix for a roll (rotation about the x-axis).
     
@@ -152,8 +154,7 @@ def DCM_to_Euler(DCM, sequence, transformation_type='passive'):
         - The function accounts for possible singularities in the rotation representation.
     """
     # Validate the input DCM
-    if DCM.shape != (3, 3):
-        raise ValueError("DCM must be a 3x3 matrix.")
+    validate_DCM(DCM)
 
     # Validate and parse the rotation sequence
     if len(sequence) != 3:

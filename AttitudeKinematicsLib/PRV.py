@@ -116,6 +116,9 @@ def DCM_to_PRV(C):
                 with an absolute value below the threshold is set to zero to clean up the output.
               - The threshold also helps in determining if the rotation angle is effectively zero or 180 degrees.
     """
+    # Validate Input DCM
+    validate_DCM(C)
+    
     # Define the threshold for numerical errors
     threshold = 1e-10
     
