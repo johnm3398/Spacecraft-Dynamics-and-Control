@@ -28,8 +28,7 @@ The study of spacecraft dynamics and control is crucial for advancing space expl
   - **MRP.py**: Functions for Modified Rodrigues Parameters.
   - **PRV.py**: Principal Rotation Vectors and Axis-Angle transformations.
 
-- **Notebook Env for Testing**  
-  A controlled environment with scripts and notebooks for testing the implemented functions, comparing with reference implementations (e.g., AVS Lab codes), and validating numerical accuracy.
+    - **Notebook Env for Testing**: A controlled environment with scripts and notebooks for testing the implemented functions, comparing with reference implementations (e.g., AVS Lab codes), and validating numerical accuracy.
 
 - **Codes from AVS Lab**  
   Reference implementations and legacy codes from the AVS Lab for validation and benchmarking.
