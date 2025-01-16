@@ -2,14 +2,18 @@ import numpy as np
 
 from .DCM_utils import *
 
-def EP_to_DCM(q):
+def EP_to_DCM(q, convention="scalar_first"):
     """
     Converts the EP/Quaternion to a direction cosine matrix (C).
 
-    Args:
-        q (np.array): A numpy array of size 4 (a row vector) representing the quaternion,
-                      where q[0] is the scalar part (beta_0), and q[1], q[2], q[3] are the 
-                      vector parts (beta_1, beta_2, beta_3).
+     Args:
+        q (np.array): A numpy array of size 4 (a row vector) representing the quaternion.
+                      Depending on the convention:
+                        - "scalar_first": [q0, q1, q2, q3], where q0 is the scalar part.
+                        - "scalar_last": [q1, q2, q3, q0], where q0 is the scalar part.
+
+        convention (str): Specifies the convention for quaternion representation.
+                          Options: "scalar_first" (default) or "scalar_last".
 
     Returns:
         np.array: A 3x3 rotation matrix (C).
@@ -25,8 +29,13 @@ def EP_to_DCM(q):
     if not np.isclose(q_norm, 1.0, atol=1e-8):
         q /= q_norm
     
-    # Extract components
-    q0, q1, q2, q3 = q
+    # Adjust indexing based on the specified convention
+    if convention == "scalar_last":
+        q1, q2, q3, q0 = q  # Swap positions to treat q0 as the last element
+    elif convention == "scalar_first":
+        q0, q1, q2, q3 = q  # Default behavior
+    else:
+        raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
     
     # Compute the elements of the C
     C = np.array([
@@ -37,15 +46,18 @@ def EP_to_DCM(q):
     
     return C
 
-def DCM_to_EP(C):
+def DCM_to_EP(C, convention="scalar_first"):
     """
     Converts a Direction Cosine Matrix (C) to a quaternion using Shepperd's method to ensure robustness against numerical issues.
     
     Args:
         C (np.array): A 3x3 rotation matrix (C).
+        convention (str): Specifies the convention for quaternion representation.
+                          Options: "scalar_first" (default) or "scalar_last".
     
     Returns:
-        np.array: A quaternion represented as a numpy array of size 4, with the scalar component as the first element.
+        np.array: A quaternion represented as a numpy array of size 4.
+                  Format depends on the `convention` parameter.
     """
     # Validate Input DCM
     validate_DCM(C)
@@ -92,6 +104,13 @@ def DCM_to_EP(C):
             q[3] = -q[3]
         q[1] = (C[2, 0] + C[0, 2]) / (4 * q[3])
         q[2] = (C[1, 2] + C[2, 1]) / (4 * q[3])
+
+    # Adjust output based on the specified convention
+    if convention == "scalar_last":
+        # Rearrange to [q1, q2, q3, q0]
+        q = [q[1], q[2], q[3], q[0]]
+    elif convention != "scalar_first":
+        raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
     
     return q
 
