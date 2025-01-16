@@ -114,4 +114,4 @@ def validate_DCM(dcm):
     if not np.isclose(handedness_check, 1.0, atol=1e-8):
         raise ValueError("The DCM does not preserve handedness (right-handed system check failed).")
 
-    print("The DCM is valid.")
+    #print("The DCM is valid.")
