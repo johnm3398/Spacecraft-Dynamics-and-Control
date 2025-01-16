@@ -107,11 +107,12 @@ def DCM_to_EP(C, convention="scalar_first"):
 
     # Adjust output based on the specified convention
     if convention == "scalar_last":
-        # Rearrange to [q1, q2, q3, q0]
-        q = [q[1], q[2], q[3], q[0]]
-    elif convention != "scalar_first":
+        q = np.array([q[1], q[2], q[3], q[0]])
+    elif convention == "scalar_first":
+        q = np.array([q[0], q[1], q[2], q[3]])
+    else:
         raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
-    
+
     return q
 
 def Bmat_EP(q):
