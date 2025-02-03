@@ -13,7 +13,7 @@ def EP_to_DCM(q, convention="scalar_first"):
                         - "scalar_last": [q1, q2, q3, q0], where q0 is the scalar part.
 
         convention (str): Specifies the convention for quaternion representation.
-                          Options: "scalar_first" (default) or "scalar_last".
+                          Options ---> "scalar_first" (default) or "scalar_last"
 
     Returns:
         np.array: A 3x3 rotation matrix (C).
@@ -53,7 +53,7 @@ def DCM_to_EP(C, convention="scalar_first"):
     Args:
         C (np.array): A 3x3 rotation matrix (C).
         convention (str): Specifies the convention for quaternion representation.
-                          Options: "scalar_first" (default) or "scalar_last".
+                          Options ---> "scalar_first" (default) or "scalar_last"
     
     Returns:
         np.array: A quaternion represented as a numpy array of size 4.
@@ -115,7 +115,7 @@ def DCM_to_EP(C, convention="scalar_first"):
 
     return q
 
-def Bmat_EP(q):
+def Bmat_EP(q, convention="scalar_first"):
     """
     Computes the 4x3 B matrix that maps body angular velocity (omega) to the derivative of the quaternion (Euler parameters) vector.
 
@@ -123,6 +123,8 @@ def Bmat_EP(q):
 
     Args:
         q (array-like): A 4-element quaternion (Euler parameter) vector [q0, q1, q2, q3].
+        convention (str): Specifies the convention for quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last"
     
     Returns:
         np.ndarray: A 4x3 B matrix.
@@ -137,7 +139,10 @@ def Bmat_EP(q):
     q = np.array(q, dtype=float)
 
     # Extract components of the quaternion
-    q0, q1, q2, q3 = q
+    if convention == "scalar_first":
+        q0, q1, q2, q3 = q
+    elif convention == "scalar_last":
+        q1, q2, q3, q0 = q
 
     # Construct the B matrix using a structured array
     B = np.array([[-q1, -q2, -q3],
@@ -147,7 +152,7 @@ def Bmat_EP(q):
 
     return B
 
-def BInvmat_EP(q):
+def BInvmat_EP(q, convention="scalar_first"):
     """
     Computes the 3x4 B matrix that maps the derivative of the quaternion (Euler parameters) vector to the body angular velocity (omega).
 
@@ -155,6 +160,8 @@ def BInvmat_EP(q):
 
     Args:
         q (array-like): A 4-element quaternion (Euler parameter) vector [q0, q1, q2, q3].
+        convention (str): Specifies the convention for quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last"
 
     Returns:
         np.ndarray: A 3x4 B matrix.
@@ -170,7 +177,10 @@ def BInvmat_EP(q):
     q = np.array(q, dtype=float)
 
     # Extract components of the quaternion
-    q0, q1, q2, q3 = q
+    if convention == "scalar_first":
+        q0, q1, q2, q3 = q
+    elif convention == "scalar_last":
+        q1, q2, q3, q0 = q
 
     # Construct the BInv matrix using a structured array
     B_inv = np.array([[-q1,  q0,  q3, -q2],
@@ -178,3 +188,38 @@ def BInvmat_EP(q):
                       [-q3,  q2, -q1,  q0]])
 
     return B_inv
+
+    def normalize_quat(q, convention="scalar_first"):
+    """
+    Normalizes a quaternion to ensure it remains a unit quaternion.
+
+    Args:
+        q (array-like): A 4-element quaternion [q0, q1, q2, q3].
+        convention (str): Specifies the quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last".
+
+    Returns:
+        np.ndarray: A normalized 4-element quaternion.
+
+    Notes:
+        - The quaternion should be in the form [q0, q1, q2, q3] for "scalar_first".
+        - If "scalar_last" is used, it is assumed to be [q1, q2, q3, q0].
+        - Ensures the quaternion maintains unit norm, which is critical for rotation representation.
+    """
+    # Validate the input quaternion vector
+    validate_vec4(q)
+
+    # Convert input to a NumPy array if not already
+    q = np.array(q, dtype=float)
+
+    # Compute the norm of the quaternion
+    norm_q = np.linalg.norm(q)
+
+    # Avoid division by zero
+    if norm_q == 0:
+        raise ValueError("Quaternion norm is zero; cannot normalize.")
+
+    # Normalize the quaternion
+    q_normalized = q / norm_q
+
+    return q_normalized
