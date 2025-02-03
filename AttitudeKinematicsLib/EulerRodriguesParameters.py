@@ -189,7 +189,7 @@ def BInvmat_EP(q, convention="scalar_first"):
 
     return B_inv
 
-    def normalize_quat(q, convention="scalar_first"):
+def normalize_quat(q, convention="scalar_first"):
     """
     Normalizes a quaternion to ensure it remains a unit quaternion.
 
