@@ -189,22 +189,19 @@ def BInvmat_EP(q, convention="scalar_first"):
 
     return B_inv
 
-def normalize_quat(q, convention="scalar_first"):
+def normalize_quat(q):
     """
     Normalizes a quaternion to ensure it remains a unit quaternion.
 
     Args:
-        q (array-like): A 4-element quaternion [q0, q1, q2, q3].
-        convention (str): Specifies the quaternion representation.
-                          Options ---> "scalar_first" (default) or "scalar_last".
+        q (array-like): A 4-element quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0]
 
     Returns:
         np.ndarray: A normalized 4-element quaternion.
 
     Notes:
-        - The quaternion should be in the form [q0, q1, q2, q3] for "scalar_first".
-        - If "scalar_last" is used, it is assumed to be [q1, q2, q3, q0].
         - Ensures the quaternion maintains unit norm, which is critical for rotation representation.
+        - Conventions do not matter for this function. The normalization can take place independent of conventions.
     """
     # Validate the input quaternion vector
     validate_vec4(q)
@@ -223,3 +220,96 @@ def normalize_quat(q, convention="scalar_first"):
     q_normalized = q / norm_q
 
     return q_normalized
+
+def quat_mult(q1, q2):
+    """
+    Computes the Hamilton product (quaternion multiplication) using the skew-symmetric matrix representation.
+
+    Args:
+        q1 (array-like): First quaternion [q0, q1, q2, q3].
+        q2 (array-like): Second quaternion [q0, q1, q2, q3].
+        convention (str): Specifies the quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last".
+
+    Returns:
+        np.ndarray: The resulting quaternion after multiplication, maintaining the input convention.
+
+    Notes:
+        - Uses the skew-symmetric matrix formulation to perform quaternion multiplication.
+        - Ensures the output follows the same convention as the input.
+        - Quaternion multiplication represents **rotation composition**.
+    """
+    # Validate input quaternion vectors
+    validate_vec4(q1)
+    validate_vec4(q2)
+
+    # Convert to NumPy arrays
+    q1 = np.array(q1, dtype=float)
+    q2 = np.array(q2, dtype=float)
+
+    # Convert quaternion to skew-symmetric matrix form
+    Q_mat = skew_symmetric(q1)
+
+    # Perform quaternion multiplication using matrix-vector multiplication
+    q_result = np.matmul(Q_mat, q2)
+
+    return q_result
+
+import numpy as np
+
+def quat_inv(q):
+    """
+    Computes the inverse of a quaternion.
+
+    Args:
+        q (array-like): Quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+
+    Returns:
+        np.ndarray: The inverse quaternion.
+
+    Notes:
+        - Computes **q⁻¹ = normalize(q*)**, where `q*` is the conjugate.
+        - Uses `normalize_quat` to ensure numerical stability.
+        - The returned quaternion maintains the same convention as the input.
+    """
+    # Validate input quaternion vector
+    validate_vec4(q)
+
+    # Convert to NumPy array
+    q = np.array(q, dtype=float)
+
+    # Compute quaternion conjugate (negate vector part)
+    q_conjugate = np.array([q[0], -q[1], -q[2], -q[3]])
+
+    # Normalize the conjugate
+    q_inv = normalize_quat(q_conjugate)
+
+    return q_inv
+
+def quat_diff(q1, q2):
+    """
+    Computes the relative quaternion (offset) between two quaternions.
+
+    Args:
+        q1 (array-like): First quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+        q2 (array-like): Second quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+
+    Returns:
+        np.ndarray: The quaternion representing the relative orientation.
+
+    Notes:
+        - Computes the **rotation offset** needed to align `q1` to `q2`.
+        - Uses the formula **q_diff = q2 ⊗ q1⁻¹**.
+        - The output quaternion follows the **same convention** (scalar-first or scalar-last) as `q1`.
+    """
+    # Validate input quaternion vectors
+    validate_vec4(q1)
+    validate_vec4(q2)
+
+    # Compute quaternion inverse
+    q1_inv = quat_inv(q1)
+
+    # Compute relative rotation (offset) quaternion using skew-symmetric multiplication
+    q_diff = quat_mult(q2, q1_inv)
+
+    return q_diff
