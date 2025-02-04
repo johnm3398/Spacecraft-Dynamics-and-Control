@@ -48,24 +48,55 @@ def validate_vec4(v):
 
 def skew_symmetric(v):
     """
-    Returns the skew-symmetric matrix of a 3-element vector.
+    Returns the skew-symmetric matrix of a 3-element or 4-element vector.
+
+    - For a **3-element vector** `[v1, v2, v3]`, returns the standard **3x3 cross-product matrix**.
+    - For a **4-element vector** `[v0, v1, v2, v3]`, returns a **4x4 skew-symmetric matrix** where `v0` 
+      is included in the diagonal. This form is useful in quaternion kinematic equations.
+
+    **Convention:**
+    - Assumes **scalar-first** representation for quaternions `[q0, q1, q2, q3]`.
+    - If used for angular velocity, set `v0 = 0` (i.e., `[0, omega_1, omega_2, omega_3]`).
 
     Args:
-        v (array-like): A 3-element array or list.
+        v (array-like): A 3-element or 4-element vector.
 
     Returns:
-        np.ndarray: The 3x3 skew-symmetric matrix.
+        np.ndarray: The corresponding skew-symmetric matrix.
+
+    Raises:
+        ValueError: If the input is not a 3-element or 4-element vector.
     """
-    # Validate input vector
-    validate_vec3(v)
+    v = np.array(v, dtype=float)  # Ensure NumPy array
+    n = v.shape[0]                # Get vector length
 
-    # Decompose vector into its components
-    v1, v2, v3 = v
+    if n == 3:
+        # Validate input vector
+        validate_vec3(v)
 
-    # Construct the skew-symmetric matrix
-    v_tilde_mat = np.array([[0  , -v3,  v2],
-                            [v3 ,   0, -v1],
-                            [-v2,  v1,   0]])
+        # Decompose vector into its components
+        v1, v2, v3 = v
+
+        # Construct the skew-symmetric matrix
+        v_tilde_mat = np.array([[  0, -v3,  v2],
+                                [ v3,   0, -v1],
+                                [-v2,  v1,   0]])
+        
+    elif n == 4:
+        # Validate input vector
+        validate_vec4(v)
+
+        # Decompose vector into its components
+        v0, v1, v2, v3 = v
+
+        # Construct the Skew Symmetric Matrix
+        v_tilde_mat = np.array([[ v0 , -v1, -v2, -v3],
+                                [ v1 ,  v0,  v3, -v2],
+                                [ v2 , -v3,  v0,  v1],
+                                [ v3 ,  v2, -v1,  v0]])
+        
+    else:
+        raise ValueError("Input must be either a 3-element or 4-element vector.")
 
     return v_tilde_mat
 
