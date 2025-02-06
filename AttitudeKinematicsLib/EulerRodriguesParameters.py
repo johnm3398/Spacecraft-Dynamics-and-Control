@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.integrate import solve_ivp
+
 
 from .DCM_utils import *
 
@@ -221,13 +223,13 @@ def normalize_quat(q):
 
     return q_normalized
 
-def quat_mult(q1, q2):
+def quat_mult(q1, q2, convention="scalar_first"):
     """
     Computes the Hamilton product (quaternion multiplication) using the skew-symmetric matrix representation.
 
     Args:
-        q1 (array-like): First quaternion [q0, q1, q2, q3].
-        q2 (array-like): Second quaternion [q0, q1, q2, q3].
+        q1 (array-like): First quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+        q2 (array-like): Second quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
         convention (str): Specifies the quaternion representation.
                           Options ---> "scalar_first" (default) or "scalar_last".
 
@@ -247,30 +249,44 @@ def quat_mult(q1, q2):
     q1 = np.array(q1, dtype=float)
     q2 = np.array(q2, dtype=float)
 
-    # Convert quaternion to skew-symmetric matrix form
-    Q_mat = skew_symmetric(q1)
+    # Extract quaternion components based on convention
+    if convention == "scalar_first":
+        q0_1, q1_1, q2_1, q3_1 = q1
+        q0_2, q1_2, q2_2, q3_2 = q2
+    elif convention == "scalar_last":
+        q1_1, q2_1, q3_1, q0_1 = q1
+        q1_2, q2_2, q3_2, q0_2 = q2
 
-    # Perform quaternion multiplication using matrix-vector multiplication
-    q_result = np.matmul(Q_mat, q2)
+    # Compute Hamilton Product
+    q_result = np.array([
+        q0_1 * q0_2 - q1_1 * q1_2 - q2_1 * q2_2 - q3_1 * q3_2,  # Scalar part
+        q0_1 * q1_2 + q1_1 * q0_2 + q2_1 * q3_2 - q3_1 * q2_2,  # i component
+        q0_1 * q2_2 - q1_1 * q3_2 + q2_1 * q0_2 + q3_1 * q1_2,  # j component
+        q0_1 * q3_2 + q1_1 * q2_2 - q2_1 * q1_2 + q3_1 * q0_2   # k component
+    ])
+
+    # Restore correct convention in output
+    if convention == "scalar_last":
+        q_result = np.array([q_result[1], q_result[2], q_result[3], q_result[0]])
 
     return q_result
 
-import numpy as np
-
-def quat_inv(q):
+def quat_inv(q, convention="scalar_first"):
     """
-    Computes the inverse of a quaternion.
+    Computes the inverse (conjugate) of a quaternion.
 
     Args:
-        q (array-like): Quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+        q (array-like): Quaternion [q0, q1, q2, q3] (scalar-first) or [q1, q2, q3, q0] (scalar-last).
+        convention (str): Specifies the quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last".
 
     Returns:
-        np.ndarray: The inverse quaternion.
+        np.ndarray: The inverse quaternion, maintaining the input convention.
 
     Notes:
         - Computes **q⁻¹ = normalize(q*)**, where `q*` is the conjugate.
         - Uses `normalize_quat` to ensure numerical stability.
-        - The returned quaternion maintains the same convention as the input.
+        - Ensures the returned quaternion follows the same convention as the input.
     """
     # Validate input quaternion vector
     validate_vec4(q)
@@ -278,21 +294,28 @@ def quat_inv(q):
     # Convert to NumPy array
     q = np.array(q, dtype=float)
 
-    # Compute quaternion conjugate (negate vector part)
-    q_conjugate = np.array([q[0], -q[1], -q[2], -q[3]])
+    # Extract quaternion components based on convention
+    if convention == "scalar_first":
+        q0, q1, q2, q3 = q
+        q_conjugate = np.array([q0, -q1, -q2, -q3])  # Conjugate in scalar-first format
+    elif convention == "scalar_last":
+        q1, q2, q3, q0 = q
+        q_conjugate = np.array([-q1, -q2, -q3, q0])  # Conjugate in scalar-last format
 
-    # Normalize the conjugate
+    # Normalize the conjugate to ensure it's a valid unit quaternion
     q_inv = normalize_quat(q_conjugate)
 
     return q_inv
 
-def quat_diff(q1, q2):
+def quat_diff(q1, q2, convention="scalar_first"):
     """
     Computes the relative quaternion (offset) between two quaternions.
 
     Args:
-        q1 (array-like): First quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
-        q2 (array-like): Second quaternion [q0, q1, q2, q3] or [q1, q2, q3, q0].
+        q1 (array-like): First quaternion [q0, q1, q2, q3] (scalar-first) or [q1, q2, q3, q0] (scalar-last).
+        q2 (array-like): Second quaternion [q0, q1, q2, q3] (scalar-first) or [q1, q2, q3, q0] (scalar-last).
+        convention (str): Specifies the quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last".
 
     Returns:
         np.ndarray: The quaternion representing the relative orientation.
@@ -300,16 +323,80 @@ def quat_diff(q1, q2):
     Notes:
         - Computes the **rotation offset** needed to align `q1` to `q2`.
         - Uses the formula **q_diff = q2 ⊗ q1⁻¹**.
-        - The output quaternion follows the **same convention** (scalar-first or scalar-last) as `q1`.
+        - Ensures the output quaternion follows the **same convention** as `q1`.
     """
     # Validate input quaternion vectors
     validate_vec4(q1)
     validate_vec4(q2)
 
-    # Compute quaternion inverse
-    q1_inv = quat_inv(q1)
+    # Compute quaternion inverse with the correct convention
+    q1_inv = quat_inv(q1, convention)
 
-    # Compute relative rotation (offset) quaternion using skew-symmetric multiplication
-    q_diff = quat_mult(q2, q1_inv)
+    # Compute relative rotation (offset) quaternion
+    q_diff = quat_mult(q2, q1_inv, convention)
 
     return q_diff
+
+def quat_kinematics(q, omega_vec, convention="scalar_first"):
+    """
+    Computes the time derivative of a quaternion given body angular velocity.
+        
+        dQ/dt = 1/2 * [B(Q)] * omega
+
+    Args:
+        q (array-like): A 4-element quaternion [q0, q1, q2, q3].
+        omega_vec (array-like): Angular velocity [omega_1, omega_2, omega_3] in body frame.
+        convention (str): Specifies the quaternion representation.
+                          Options ---> "scalar_first" (default) or "scalar_last".
+
+    Returns:
+        np.ndarray: The quaternion derivative dq/dt.
+
+    Notes:
+        - Uses the kinematic equation **dq/dt = 1/2 * B(q) * omega**.
+        - Ensures quaternion remains normalized after integration.
+    """
+    # Validate quaternion and angular velocity vector
+    validate_vec4(q)
+    validate_vec3(omega_vec)
+
+    # Convert to NumPy arrays
+    q = np.array(q, dtype=float)
+    omega_vec = np.array(omega_vec, dtype=float)
+
+    # Compute B-matrix for quaternion kinematics
+    B_mat = Bmat_EP(q, convention)
+
+    # Compute quaternion derivative (kinematic equation)
+    q_dot = 0.5 * np.matmul(B_mat, omega_vec)
+
+    return q_dot
+
+def integrate_quaternion(quat_init, omega_vec, delta_t, convention="scalar_first"):
+    """
+    Integrates the quaternion kinematics equation using solve_ivp.
+
+    Args:
+        quat_init (array-like): Initial quaternion [q0, q1, q2, q3].
+        omega_vec (array-like): Angular velocity vector [ω1, ω2, ω3].
+        delta_t (float): Time step for integration.
+        convention (str): Specifies quaternion format ("scalar_first" or "scalar_last").
+
+    Returns:
+        np.ndarray: Updated quaternion after integration.
+    """
+    quat_init = np.array(quat_init, dtype=float)
+    
+    # Solve IVP to integrate quaternion kinematics
+    sol = solve_ivp(fun=lambda t, q: quat_kinematics(q, omega_vec, convention),
+                    t_span=[0, delta_t], 
+                    y0=quat_init, 
+                    method='DOP853', 
+                    rtol=1e-12, 
+                    atol=1e-14)
+    
+    # Extract and normalize the final quaternion
+    quat_final = sol.y[:, -1]
+    quat_final = normalize_quat(quat_final)
+
+    return quat_final
