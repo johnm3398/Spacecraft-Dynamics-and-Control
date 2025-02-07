@@ -251,18 +251,18 @@ def quat_mult(q1, q2, convention="scalar_first"):
 
     # Extract quaternion components based on convention
     if convention == "scalar_first":
-        q0_1, q1_1, q2_1, q3_1 = q1
-        q0_2, q1_2, q2_2, q3_2 = q2
+        q1_0, q1_1, q2_1, q1_3 = q1
+        q2_0, q2_1, q2_2, q2_3 = q2
     elif convention == "scalar_last":
-        q1_1, q2_1, q3_1, q0_1 = q1
-        q1_2, q2_2, q3_2, q0_2 = q2
+        q1_1, q2_1, q1_3, q1_0 = q1
+        q2_1, q2_2, q2_3, q2_0 = q2
 
     # Compute Hamilton Product
     q_result = np.array([
-        q0_1 * q0_2 - q1_1 * q1_2 - q2_1 * q2_2 - q3_1 * q3_2,  # Scalar part
-        q0_1 * q1_2 + q1_1 * q0_2 + q2_1 * q3_2 - q3_1 * q2_2,  # i component
-        q0_1 * q2_2 - q1_1 * q3_2 + q2_1 * q0_2 + q3_1 * q1_2,  # j component
-        q0_1 * q3_2 + q1_1 * q2_2 - q2_1 * q1_2 + q3_1 * q0_2   # k component
+        q1_0 * q2_0 - q1_1 * q2_1 - q2_1 * q2_2 - q1_3 * q2_3,  # Scalar part
+        q1_0 * q2_1 + q1_1 * q2_0 + q2_1 * q2_3 - q1_3 * q2_2,  # i component
+        q1_0 * q2_2 - q1_1 * q2_3 + q2_1 * q2_0 + q1_3 * q2_1,  # j component
+        q1_0 * q2_3 + q1_1 * q2_2 - q2_1 * q2_1 + q1_3 * q2_0   # k component
     ])
 
     # Restore correct convention in output
