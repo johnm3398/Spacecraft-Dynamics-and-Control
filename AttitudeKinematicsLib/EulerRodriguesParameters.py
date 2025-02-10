@@ -226,26 +226,28 @@ def normalize_quat(q):
 def quat_mult(q1, q2, convention="scalar_first"):
     """
     Computes the Hamilton product (quaternion multiplication) with maximum precision 
-    using direct computation instead of matrix multiplication.
-
+    using direct computation rather than matrix multiplication. In this function, q1 is 
+    treated as the initial quaternion and q2 as the final quaternion. The overall 
+    composition is given by: q_result = q2 * q1, which means that the rotation corresponding 
+    to q1 is applied first, then q2.
+    
     Args:
-        q1 (array-like): First quaternion [q0, q1, q2, q3] (scalar-first) 
-                         or [q1, q2, q3, q0] (scalar-last).
-        q2 (array-like): Second quaternion [q0, q1, q2, q3] (scalar-first) 
-                         or [q1, q2, q3, q0] (scalar-last).
+        q1 (array-like): Initial quaternion [q0, q1, q2, q3] (scalar-first) or [q1, q2, q3, q0] (scalar-last).
+        q2 (array-like): Final quaternion   [q0, q1, q2, q3] (scalar-first) or [q1, q2, q3, q0] (scalar-last).
         convention (str): Specifies the quaternion representation.
-                          Options -> "scalar_first" (default) or "scalar_last".
-
+                          Options: "scalar_first" (default) or "scalar_last".
+    
     Returns:
-        np.ndarray: The resulting quaternion after multiplication, maintaining the input convention.
+        np.ndarray: The resulting quaternion after multiplication (q2 * q1), maintaining 
+                    the input convention.
     """
     # Validate input quaternion vectors
     validate_vec4(q1)
     validate_vec4(q2)
 
     # Convert to NumPy arrays
-    q1 = np.array(q1, dtype=float)
-    q2 = np.array(q2, dtype=float)
+    q1 = np.array(q1, dtype=np.float64)
+    q2 = np.array(q2, dtype=np.float64)
 
     # q1 is already in scalar-first: [q0, q1, q2, q3]
     if convention == "scalar_first":
@@ -259,11 +261,16 @@ def quat_mult(q1, q2, convention="scalar_first"):
     else:
         raise ValueError("Convention must be 'scalar_first' or 'scalar_last'.")
 
-    # Direct computation of Hamilton product
-    w = q1[0] * q2[0] - q1[1] * q2[1] - q1[2] * q2[2] - q1[3] * q2[3]
-    x = q1[0] * q2[1] + q1[1] * q2[0] + q1[2] * q2[3] - q1[3] * q2[2]
-    y = q1[0] * q2[2] - q1[1] * q2[3] + q1[2] * q2[0] + q1[3] * q2[1]
-    z = q1[0] * q2[3] + q1[1] * q2[2] - q1[2] * q2[1] + q1[3] * q2[0]
+    # Normalize quaternions
+    q1 = normalize_quat(q1)
+    q2 = normalize_quat(q2)
+
+    # Compute Hamilton product with q2 as the left operand and q1 as the right operand.
+    # This corresponds to applying the initial rotation (q1) followed by the final rotation (q2).
+    w = q2[0]*q1[0] - q2[1]*q1[1] - q2[2]*q1[2] - q2[3]*q1[3]
+    x = q2[1]*q1[0] + q2[0]*q1[1] + q2[3]*q1[2] - q2[2]*q1[3]
+    y = q2[2]*q1[0] - q2[3]*q1[1] + q2[0]*q1[2] + q2[1]*q1[3]
+    z = q2[3]*q1[0] + q2[2]*q1[1] - q2[1]*q1[2] + q2[0]*q1[3]
 
     q_result = np.array([w, x, y, z], dtype=np.float64)
 
@@ -326,12 +333,8 @@ def quat_diff(q1, q2, convention="scalar_first"):
     Computes the relative quaternion that transforms q2 into q1.
 
     This is achieved by computing q2_inv * q1, which represents the rotation 
-    from q2's frame to q1's frame. The inverse of q2 ensures proper alignment 
-    in the quaternion space.
-
-    A transmuted multiplication matrix is used to correctly apply the quaternion 
-    product, ensuring element placement and signs follow the expected Hamilton 
-    product order.
+    from q2's frame to q1's frame. The inverse of q2 is computed implicitly 
+    (assuming unit quaternions) by negating the vector part of q2.
 
     Args:
         q1 (array-like): Reference quaternion in either 
@@ -361,11 +364,17 @@ def quat_diff(q1, q2, convention="scalar_first"):
     else:
         raise ValueError("Convention must be 'scalar_first' or 'scalar_last'.")
 
-    # Directly compute the relative quaternion q_diff = q2_inv * q1 without explicit inversion
+    # Normalize quaternions
+    q1 = normalize_quat(q1)
+    q2 = normalize_quat(q2)
+
+    # Compute the relative quaternion q_diff = q2_inv * q1 without explicit inversion.
+    # For unit quaternions, the inverse of q2 is given by [q2[0], -q2[1], -q2[2], -q2[3]].
+    # The Hamilton product is computed as follows:
     w =  q2[0] * q1[0] + q2[1] * q1[1] + q2[2] * q1[2] + q2[3] * q1[3]
-    x = -q2[1] * q1[0] + q2[0] * q1[1] + q2[3] * q1[2] - q2[2] * q1[3]
-    y = -q2[2] * q1[0] - q2[3] * q1[1] + q2[0] * q1[2] + q2[1] * q1[3]
-    z = -q2[3] * q1[0] + q2[2] * q1[1] - q2[1] * q1[2] + q2[0] * q1[3]
+    x =  q2[0] * q1[1] - q2[1] * q1[0] - q2[2] * q1[3] + q2[3] * q1[2]
+    y =  q2[0] * q1[2] + q2[1] * q1[3] - q2[2] * q1[0] - q2[3] * q1[1]
+    z =  q2[0] * q1[3] - q2[1] * q1[2] + q2[2] * q1[1] - q2[3] * q1[0]
 
     q_diff = np.array([w, x, y, z], dtype=np.float64)
 
