@@ -143,14 +143,17 @@ def Bmat_EP(q, convention="scalar_first"):
     # Extract components of the quaternion
     if convention == "scalar_first":
         q0, q1, q2, q3 = q
+        B = np.array([[-q1, -q2, -q3],
+                      [ q0, -q3,  q2],
+                      [ q3,  q0, -q1],
+                      [-q2,  q1,  q0]])
+        
     elif convention == "scalar_last":
         q1, q2, q3, q0 = q
-
-    # Construct the B matrix using a structured array
-    B = np.array([[-q1, -q2, -q3],
-                  [ q0, -q3,  q2],
-                  [ q3,  q0, -q1],
-                  [-q2,  q1,  q0]])
+        B = np.array([[ q0, -q3,  q2],
+                      [ q3,  q0, -q1],
+                      [-q2,  q1,  q0],
+                      [-q1, -q2, -q3]])
 
     return B
 
@@ -181,14 +184,16 @@ def BInvmat_EP(q, convention="scalar_first"):
     # Extract components of the quaternion
     if convention == "scalar_first":
         q0, q1, q2, q3 = q
+        B_inv = np.array([[-q1,  q0,  q3, -q2],
+                          [-q2, -q3,  q0,  q1],
+                          [-q3,  q2, -q1,  q0]])
+        
     elif convention == "scalar_last":
         q1, q2, q3, q0 = q
-
-    # Construct the BInv matrix using a structured array
-    B_inv = np.array([[-q1,  q0,  q3, -q2],
-                      [-q2, -q3,  q0,  q1],
-                      [-q3,  q2, -q1,  q0]])
-
+        B_inv = np.array([[ q0,  q3, -q2, -q1],
+                          [-q3,  q0,  q1, -q2],
+                          [ q2, -q1,  q0, -q3]])
+    
     return B_inv
 
 def normalize_quat(q):
@@ -384,7 +389,7 @@ def quat_diff(q1, q2, convention="scalar_first"):
 
     return q_diff
 
-def quat_kinematics(q, omega_vec, convention="scalar_first"):
+def quat_derivative(q, omega_vec, convention="scalar_first"):
     """
     Computes the time derivative of a quaternion given body angular velocity.
         
