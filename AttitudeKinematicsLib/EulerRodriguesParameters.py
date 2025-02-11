@@ -440,7 +440,7 @@ def integrate_quaternion(quat_init, omega_vec, delta_t, convention="scalar_first
     quat_init = np.array(quat_init, dtype=float)
     
     # Solve IVP to integrate quaternion kinematics
-    sol = solve_ivp(fun=lambda t, q: quat_kinematics(q, omega_vec, convention),
+    sol = solve_ivp(fun=lambda t, q: quat_derivative(q, omega_vec, convention),
                     t_span=[0, delta_t], 
                     y0=quat_init, 
                     method='DOP853', 
