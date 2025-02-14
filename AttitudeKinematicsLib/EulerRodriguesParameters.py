@@ -4,7 +4,7 @@ from scipy.integrate import solve_ivp
 
 from .DCM_utils import *
 
-def EP_to_DCM(q, convention="scalar_first"):
+def EP_to_DCM(q, convention="scalar_first", transformation_type="passive"):
     """
     Converts the EP/Quaternion to a direction cosine matrix (C).
 
@@ -15,7 +15,11 @@ def EP_to_DCM(q, convention="scalar_first"):
                         - "scalar_last": [q1, q2, q3, q0], where q0 is the scalar part.
 
         convention (str): Specifies the convention for quaternion representation.
-                          Options ---> "scalar_first" (default) or "scalar_last"
+                          Options: "scalar_first" (default) or "scalar_last".
+
+        transformation_type (str): Specifies whether the DCM represents an 
+                                   "active" or "passive" transformation.
+                                   Options: "active" or "passive" (default).      
 
     Returns:
         np.array: A 3x3 rotation matrix (C).
@@ -33,9 +37,9 @@ def EP_to_DCM(q, convention="scalar_first"):
     
     # Adjust indexing based on the specified convention
     if convention == "scalar_last":
-        q1, q2, q3, q0 = q  # Swap positions to treat q0 as the last element
+        q1, q2, q3, q0 = q 
     elif convention == "scalar_first":
-        q0, q1, q2, q3 = q  # Default behavior
+        q0, q1, q2, q3 = q 
     else:
         raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
     
@@ -45,8 +49,14 @@ def EP_to_DCM(q, convention="scalar_first"):
         [2 * (q1*q2 - q0*q3)          , q0**2 - q1**2 + q2**2 - q3**2, 2 * (q2*q3 + q0*q1)          ],
         [2 * (q1*q3 + q0*q2)          , 2 * (q2*q3 - q0*q1)          , q0**2 - q1**2 - q2**2 + q3**2]
     ])
-    
-    return C
+
+    # If an active transformation is requested, return C^T
+    if transformation_type == "active":
+        return C.T
+    elif transformation_type == "passive":
+        return C
+    else:
+        raise ValueError(f"Invalid transformation type '{transformation_type}'. Choose 'active' or 'passive'.")
 
 def DCM_to_EP(C, convention="scalar_first"):
     """
