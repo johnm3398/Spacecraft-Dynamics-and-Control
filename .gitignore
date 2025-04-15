@@ -2,3 +2,4 @@
 *.pyc
 AttitudeKinematicsLib/__pycache__/DCM_utils.cpython-311.pyc
 Codes from AVS Lab/__pycache__/RigidBodyKinematics.cpython-311.pyc
+.DS_Store
