@@ -2,7 +2,6 @@
 
 This repository is a comprehensive collection of tools, codes, and resources developed to study and analyze the dynamics and control of spacecraft. It is structured to support learning, testing, and research in the field of spacecraft attitude and motion kinematics, as well as their applications in control systems.
 
----
 
 ## 🚀 Motivation
 
@@ -13,7 +12,6 @@ The study of spacecraft dynamics and control is crucial for advancing space expl
 - Serve as a testing ground for validating mathematical formulations and numerical implementations of attitude kinematics and dynamics.
 - Support coursework, simulations, and projects related to spacecraft control systems.
 
----
 
 ## 📚 Attribution
 
@@ -23,7 +21,6 @@ This repository is inspired in part by the structure and rigor of **Hanspeter Sc
 
 While this project is **not a reproduction** of the book, many of the concepts, coordinate systems, and formulation styles reflect the pedagogical clarity and structure found in that reference.
 
----
 
 ## 🗂️ Repository Structure
 
@@ -49,7 +46,6 @@ While this project is **not a reproduction** of the book, many of the concepts, 
 - **Project Data**  
   Contains datasets and additional resources required for simulations and analysis.
 
----
 
 ## ⚙️ How to Use
 
