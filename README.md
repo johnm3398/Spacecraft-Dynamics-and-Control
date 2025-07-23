@@ -1,6 +1,7 @@
 # 🛰️ Spacecraft Dynamics and Control
 
 This repository is a comprehensive collection of tools, codes, and resources developed to study and analyze the dynamics and control of spacecraft. It is structured to support learning, testing, and research in the field of spacecraft attitude and motion kinematics, as well as their applications in control systems.
+
 ---
 
 ## 🚀 Motivation
