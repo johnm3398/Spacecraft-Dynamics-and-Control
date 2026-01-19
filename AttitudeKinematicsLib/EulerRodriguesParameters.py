@@ -6,23 +6,30 @@ from .DCM_utils import *
 
 def EP_to_DCM(q, convention="scalar_first", transformation_type="passive"):
     """
-    Converts the EP/Quaternion to a direction cosine matrix (C).
+    Convert Euler Parameters (quaternion) to a direction cosine matrix (DCM).
 
-     Args:
-        q (np.array): A numpy array of size 4 (a row vector) representing the quaternion.
-                      Depending on the convention:
-                        - "scalar_first": [q0, q1, q2, q3], where q0 is the scalar part.
-                        - "scalar_last": [q1, q2, q3, q0], where q0 is the scalar part.
+    Assumption
+    ----------
+    Uses the Euler Parameters / JPL-Shuster convention. The `convention` argument
+    controls only the storage order of the input quaternion.
 
-        convention (str): Specifies the convention for quaternion representation.
-                          Options: "scalar_first" (default) or "scalar_last".
+    Input conventions
+    ----------------
+      - "scalar_first": q = [q0, q1, q2, q3]  (q0 is scalar)
+      - "scalar_last" : q = [q1, q2, q3, q0]  (q0 is scalar)
 
-        transformation_type (str): Specifies whether the DCM represents an 
-                                   "active" or "passive" transformation.
-                                   Options: "active" or "passive" (default).      
+    Transformation type
+    -------------------
+      - "passive" (default): returns C such that v_B = C v_A
+      - "active"          : returns C.T
+
+    Args:
+        q (array-like): length-4 quaternion / Euler-parameter vector.
+        convention (str): "scalar_first" or "scalar_last".
+        transformation_type (str): "passive" or "active".
 
     Returns:
-        np.array: A 3x3 rotation matrix (C).
+        np.ndarray: 3x3 DCM.
     """
     # Validate input vector
     validate_vec4(q)
@@ -43,12 +50,17 @@ def EP_to_DCM(q, convention="scalar_first", transformation_type="passive"):
     else:
         raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
     
-    # Compute the elements of the C
+    # Pre-compute DCM Elements
+    q0q0 = q0*q0; q1q1 = q1*q1; q2q2 = q2*q2; q3q3 = q3*q3
+    q0q1 = q0*q1; q0q2 = q0*q2; q0q3 = q0*q3
+    q1q2 = q1*q2; q1q3 = q1*q3; q2q3 = q2*q3
+
+    # DCM construction
     C = np.array([
-        [q0**2 + q1**2 - q2**2 - q3**2, 2 * (q1*q2 + q0*q3)          , 2 * (q1*q3 - q0*q2)          ],
-        [2 * (q1*q2 - q0*q3)          , q0**2 - q1**2 + q2**2 - q3**2, 2 * (q2*q3 + q0*q1)          ],
-        [2 * (q1*q3 + q0*q2)          , 2 * (q2*q3 - q0*q1)          , q0**2 - q1**2 - q2**2 + q3**2]
-    ])
+        [ q0q0 + q1q1 - q2q2 - q3q3, 2.0*(q1q2 + q0q3),         2.0*(q1q3 - q0q2)        ],
+        [ 2.0*(q1q2 - q0q3),         q0q0 - q1q1 + q2q2 - q3q3, 2.0*(q2q3 + q0q1)        ],
+        [ 2.0*(q1q3 + q0q2),         2.0*(q2q3 - q0q1),         q0q0 - q1q1 - q2q2 + q3q3]
+    ], dtype=np.float64)
 
     # If an active transformation is requested, return C^T
     if transformation_type == "active":
@@ -65,7 +77,7 @@ def DCM_to_EP(C, convention="scalar_first"):
     Args:
         C (np.array): A 3x3 rotation matrix (C).
         convention (str): Specifies the convention for quaternion representation.
-                          Options ---> "scalar_first" (default) or "scalar_last"
+                          Options: "scalar_first" (default) or "scalar_last".
     
     Returns:
         np.array: A quaternion represented as a numpy array of size 4.
@@ -75,52 +87,66 @@ def DCM_to_EP(C, convention="scalar_first"):
     validate_DCM(C)
 
     trace = np.trace(C)
-    q_squared = np.zeros(4)
+    q_squared = np.zeros(4, dtype=np.float64)
     q_squared[0] = (1.0 + trace) / 4.0
     q_squared[1] = (1.0 + 2 * C[0, 0] - trace) / 4.0
     q_squared[2] = (1.0 + 2 * C[1, 1] - trace) / 4.0
     q_squared[3] = (1.0 + 2 * C[2, 2] - trace) / 4.0
+    q_squared = np.maximum(q_squared, 0.0)
 
-    q = np.zeros(4)
+    q = np.zeros(4, dtype=np.float64)
     max_index = np.argmax(q_squared)
 
     if max_index == 0:
         q[0] = np.sqrt(q_squared[0])
-        q[1] = (C[1, 2] - C[2, 1]) / (4 * q[0])
-        q[2] = (C[2, 0] - C[0, 2]) / (4 * q[0])
-        q[3] = (C[0, 1] - C[1, 0]) / (4 * q[0])
+        denom = 4.0 * q[0]
+        if denom < 1e-12:
+            raise ValueError("Numerical issue in DCM_to_EP(): denom near zero.")
+        q[1] = (C[1, 2] - C[2, 1]) / denom
+        q[2] = (C[2, 0] - C[0, 2]) / denom
+        q[3] = (C[0, 1] - C[1, 0]) / denom
     
     elif max_index == 1:
         q[1] = np.sqrt(q_squared[1])
-        q[0] = (C[1, 2] - C[2, 1]) / (4 * q[1])
+        denom = 4.0 * q[1]
+        if denom < 1e-12:
+            raise ValueError("Numerical issue in DCM_to_EP(): denom near zero.")
+        q[0] = (C[1, 2] - C[2, 1]) / denom
         if q[0] < 0:
             q[0] = -q[0]
             q[1] = -q[1]
-        q[2] = (C[0, 1] + C[1, 0]) / (4 * q[1])
-        q[3] = (C[2, 0] + C[0, 2]) / (4 * q[1])
+        q[2] = (C[0, 1] + C[1, 0]) / denom
+        q[3] = (C[2, 0] + C[0, 2]) / denom
         
     elif max_index == 2:
         q[2] = np.sqrt(q_squared[2])
-        q[0] = (C[2, 0] - C[0, 2]) / (4 * q[2])
+        denom = 4.0 * q[2]
+        if denom < 1e-12:
+            raise ValueError("Numerical issue in DCM_to_EP(): denom near zero.")
+        q[0] = (C[2, 0] - C[0, 2]) / denom
         if q[0] < 0:
             q[0] = -q[0]
             q[2] = -q[2]
-        q[1] = (C[0, 1] + C[1, 0]) / (4 * q[2])
-        q[3] = (C[1, 2] + C[2, 1]) / (4 * q[2])
+        q[1] = (C[0, 1] + C[1, 0]) / denom
+        q[3] = (C[1, 2] + C[2, 1]) / denom
 
     elif max_index == 3:
         q[3] = np.sqrt(q_squared[3])
-        q[0] = (C[0, 1] - C[1, 0]) / (4 * q[3])
+        denom = 4.0 * q[3]
+        if denom < 1e-12:
+            raise ValueError("Numerical issue in DCM_to_EP(): denom near zero.")
+        q[0] = (C[0, 1] - C[1, 0]) / denom
         if q[0] < 0:
             q[0] = -q[0]
             q[3] = -q[3]
-        q[1] = (C[2, 0] + C[0, 2]) / (4 * q[3])
-        q[2] = (C[1, 2] + C[2, 1]) / (4 * q[3])
+        q[1] = (C[2, 0] + C[0, 2]) / denom
+        q[2] = (C[1, 2] + C[2, 1]) / denom
 
     # Adjust output based on the specified convention
-    if convention == "scalar_last":
+    conv = convention.lower()
+    if conv == "scalar_last":
         q = np.array([q[1], q[2], q[3], q[0]])
-    elif convention == "scalar_first":
+    elif conv == "scalar_first":
         q = np.array([q[0], q[1], q[2], q[3]])
     else:
         raise ValueError(f"Invalid convention '{convention}'. Choose 'scalar_first' or 'scalar_last'.")
