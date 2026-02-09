@@ -26,7 +26,7 @@ jobs:
           echo "" >> STRUCTURE.md
           echo "\`\`\`text" >> STRUCTURE.md
 
-          tree -a --dirsfirst --sort=version -L 4 \
+          tree -a --dirsfirst --sort=version -L 5 \
             -I ".git|.github|__pycache__|.ipynb_checkpoints|.venv|venv|node_modules|*.png|*.jpg|*.jpeg|*.pdf|*.zip|*.obj|*.blend" \
             >> STRUCTURE.md
 
