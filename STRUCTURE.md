@@ -112,7 +112,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── RigidBodyKinematics.py
 │   └── orbitalMotion.py
 ├── Logo design
-│   └── Spacecraft-dynamics-and-control-logo-AI-generated.png
+│   ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
+│   └── Untitled design.png
 ├── Project Data
 │   └── Aircraft Model
 │       ├── Jet Fighter
@@ -139,12 +140,10 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       ├── EOP Visualization.ipynb
 │       ├── EOP-All.csv
 │       └── countries.geo.json
-├── test
-│   └── Untitled design.png
 ├── .gitignore
 ├── LICENSE
 ├── README.md
 └── STRUCTURE.md
 
-30 directories, 112 files
+29 directories, 112 files
 ```
