@@ -92,6 +92,7 @@ Auto-generated on every push to `main`.
 │       ├── SR71
 │       └── T38
 │           └── TAL16OBJ
+│               └── TAL16OBJ.mtl
 ├── Studies
 │   ├── Development of Plotting tools
 │   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
@@ -110,5 +111,5 @@ Auto-generated on every push to `main`.
 ├── README.md
 └── STRUCTURE.md
 
-30 directories, 76 files
+30 directories, 77 files
 ```
