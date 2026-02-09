@@ -1,5 +1,5 @@
 # 🛰️ Spacecraft Dynamics and Control
-<img width="1280" height="640" alt="ChatGPT Image Feb 8, 2026, 10_44_51 AM (1) (1)" src="https://github.com/user-attachments/assets/a3db5bb3-1cbe-468f-bcd6-67da3b723e14" />
+<img width="1248" height="832" alt="Spacecraft-dynamics-and-control-logo-AI-generated" src="https://github.com/user-attachments/assets/ff65ade8-b974-4fa6-997b-5d881c384376" />
 This repository is a comprehensive collection of tools, codes, and resources developed to study and analyze the dynamics and control of spacecraft. It is structured to support learning, testing, and research in the field of spacecraft attitude and motion kinematics, as well as their applications in control systems.
 
 
