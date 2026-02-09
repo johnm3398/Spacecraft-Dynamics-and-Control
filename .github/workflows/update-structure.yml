@@ -22,10 +22,14 @@ jobs:
         run: |
           echo "# Repository Structure" > STRUCTURE.md
           echo "" >> STRUCTURE.md
-          echo "Auto-generated on every push to \`main\`." >> STRUCTURE.md
+          echo "This file is auto-generated on every push to \`main\` and reflects the full repository contents." >> STRUCTURE.md
           echo "" >> STRUCTURE.md
-          echo "\`\`\`" >> STRUCTURE.md
-          tree -a -I ".git|.github|__pycache__|.ipynb_checkpoints|.venv|venv|node_modules" >> STRUCTURE.md
+          echo "\`\`\`text" >> STRUCTURE.md
+
+          tree -a --dirsfirst --sort=version \
+            -I ".git|.github|__pycache__|.ipynb_checkpoints|.venv|venv|node_modules" \
+            >> STRUCTURE.md
+
           echo "\`\`\`" >> STRUCTURE.md
 
       - name: Commit and push if changed
