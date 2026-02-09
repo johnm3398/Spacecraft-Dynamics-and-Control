@@ -131,18 +131,20 @@ Auto-generated on every push to `main`.
 │           └── TAL16OBJ.zip
 ├── README.md
 ├── STRUCTURE.md
-└── Studies
-    ├── Development of Plotting tools
-    │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
-    │   ├── coastline.geo.json
-    │   ├── countries.geo.json
-    │   ├── custom.geo.json
-    │   ├── customHigh.geo.json
-    │   └── mapcoastline.geo.json
-    └── EOP Visualization Study
-        ├── EOP Visualization.ipynb
-        ├── EOP-All.csv
-        └── countries.geo.json
+├── Studies
+│   ├── Development of Plotting tools
+│   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
+│   │   ├── coastline.geo.json
+│   │   ├── countries.geo.json
+│   │   ├── custom.geo.json
+│   │   ├── customHigh.geo.json
+│   │   └── mapcoastline.geo.json
+│   └── EOP Visualization Study
+│       ├── EOP Visualization.ipynb
+│       ├── EOP-All.csv
+│       └── countries.geo.json
+└── test
+    └── Untitled design.png
 
-29 directories, 111 files
+30 directories, 112 files
 ```
