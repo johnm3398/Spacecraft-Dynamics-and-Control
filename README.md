@@ -23,28 +23,7 @@ While this project is **not a reproduction** of the book, many of the concepts, 
 
 
 ## 🗂️ Repository Structure
-
-- **1- Kinematics: Describing the Motions of Spacecraft**  
-  Contains notebooks and materials for studying the foundational principles of spacecraft kinematics, including rigid body motion and static attitude determination.
-
-- **2- Kinetics: Studying Spacecraft Motion**  
-  A separate module dedicated to the study of forces and torques acting on spacecraft, and their impact on motion.
-
-- **AttitudeKinematicsLib**  
-  A custom Python library housing core functions for handling attitude representations and kinematic transformations:
-  - **CRP.py**: Functions related to Classical Rodrigues Parameters.
-  - **DCM_utils.py**: Utility functions for Direction Cosine Matrices (DCM), including validation and matrix operations.
-  - **EulerAngles.py**: Euler angle transformations and related utilities.
-  - **EulerRodriguesParameters.py**: Functions for working with Euler Parameters (quaternions).
-  - **MRP.py**: Functions for Modified Rodrigues Parameters.
-  - **PRV.py**: Principal Rotation Vectors and Axis-Angle transformations.
-  - **Notebook Env for Testing**: A controlled environment with scripts and notebooks for testing the implemented functions, comparing with reference implementations (e.g., AVS Lab codes), and validating numerical accuracy.
-
-- **Codes from AVS Lab**  
-  Reference implementations and legacy codes from the AVS Lab for validation and benchmarking.
-
-- **Project Data**  
-  Contains datasets and additional resources required for simulations and analysis.
+See [`STRUCTURE.md`](./STRUCTURE.md).
 
 
 ## ⚙️ How to Use
