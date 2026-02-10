@@ -129,6 +129,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │           ├── TAL16.blend
 │           └── TAL16OBJ.zip
 ├── Studies
+│   ├── Attitude Dynamics and Control
+│   │   └── Body_Rate_from_Quaternions.ipynb
 │   ├── Development of Plotting tools
 │   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
 │   │   ├── coastline.geo.json
@@ -145,5 +147,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-29 directories, 112 files
+30 directories, 113 files
 ```
