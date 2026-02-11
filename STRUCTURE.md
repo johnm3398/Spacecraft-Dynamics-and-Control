@@ -92,6 +92,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
 │       ├── Module 3 - Attitude Control of States and Rates.ipynb
 │       └── Module 4 - Alternate Attitude Control Formulations.ipynb
+├── 02_advanced_spacecraft_dynamics_and_control_specialization
+│   └── README.md
 ├── AVS_reference
 │   ├── zip_files
 │   │   ├── OrbitalMotion-Python.zip
@@ -113,6 +115,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── MRP.py
 │   ├── PRV.py
 │   └── __init__.py
+├── archive
+│   └── README.md
 ├── assets
 │   ├── aircraft_model
 │   │   ├── SR71
@@ -149,5 +153,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-32 directories, 113 files
+34 directories, 115 files
 ```
