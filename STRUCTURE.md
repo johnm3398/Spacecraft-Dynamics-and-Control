@@ -4,58 +4,7 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 
 ```text
 .
-├── AttitudeKinematicsLib
-│   ├── Notebook Env for Testing
-│   │   ├── CRP Functions.ipynb
-│   │   ├── Euler Angles Functions.ipynb
-│   │   ├── EulerRodriguesParameters Functions.ipynb
-│   │   ├── MRP Functions.ipynb
-│   │   └── PRV Functions.ipynb
-│   ├── CRP.py
-│   ├── DCM_utils.py
-│   ├── EulerAngles.py
-│   ├── EulerRodriguesParameters.py
-│   ├── MRP.py
-│   ├── PRV.py
-│   └── __init__.py
-├── Codes from AVS Lab
-│   ├── OrbitalMotion-Python.zip
-│   ├── README.txt
-│   ├── RigidBodyKinematics-Python.zip
-│   ├── RigidBodyKinematics.py
-│   └── orbitalMotion.py
-├── Logo design
-│   ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
-│   └── Untitled design.png
-├── Project Data
-│   └── Aircraft Model
-│       ├── Jet Fighter
-│       │   ├── Jet_Fighter.obj
-│       │   └── jet fighter text.txt
-│       ├── SR71
-│       │   └── SR71.obj
-│       └── T38
-│           ├── TAL16OBJ
-│           │   ├── TAL16OBJ.mtl
-│           │   ├── TAL16OBJ.obj
-│           │   └── TALTS.jpg
-│           ├── TAL16.blend
-│           └── TAL16OBJ.zip
-├── Studies
-│   ├── Attitude Dynamics and Control
-│   │   └── Body_Rate_from_Quaternions.ipynb
-│   ├── Development of Plotting tools
-│   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
-│   │   ├── coastline.geo.json
-│   │   ├── countries.geo.json
-│   │   ├── custom.geo.json
-│   │   ├── customHigh.geo.json
-│   │   └── mapcoastline.geo.json
-│   └── EOP Visualization Study
-│       ├── EOP Visualization.ipynb
-│       ├── EOP-All.csv
-│       └── countries.geo.json
-├── spacecraft_dynamics_and_control_specialization
+├── 01_spacecraft_dynamics_and_control_specialization
 │   ├── 01_kinematics
 │   │   ├── Archive
 │   │   │   └── Kinematics - Describing the Motions of Spacecraft.ipynb
@@ -143,10 +92,62 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
 │       ├── Module 3 - Attitude Control of States and Rates.ipynb
 │       └── Module 4 - Alternate Attitude Control Formulations.ipynb
+├── AVS_reference
+│   ├── zip_files
+│   │   ├── OrbitalMotion-Python.zip
+│   │   └── RigidBodyKinematics-Python.zip
+│   ├── README.md
+│   ├── RigidBodyKinematics.py
+│   └── orbitalMotion.py
+├── AttitudeKinematicsLib
+│   ├── Notebook Env for Testing
+│   │   ├── CRP Functions.ipynb
+│   │   ├── Euler Angles Functions.ipynb
+│   │   ├── EulerRodriguesParameters Functions.ipynb
+│   │   ├── MRP Functions.ipynb
+│   │   └── PRV Functions.ipynb
+│   ├── CRP.py
+│   ├── DCM_utils.py
+│   ├── EulerAngles.py
+│   ├── EulerRodriguesParameters.py
+│   ├── MRP.py
+│   ├── PRV.py
+│   └── __init__.py
+├── Studies
+│   ├── Attitude Dynamics and Control
+│   │   └── Body_Rate_from_Quaternions.ipynb
+│   ├── Development of Plotting tools
+│   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
+│   │   ├── coastline.geo.json
+│   │   ├── countries.geo.json
+│   │   ├── custom.geo.json
+│   │   ├── customHigh.geo.json
+│   │   └── mapcoastline.geo.json
+│   └── EOP Visualization Study
+│       ├── EOP Visualization.ipynb
+│       ├── EOP-All.csv
+│       └── countries.geo.json
+├── assets
+│   ├── aircraft_model
+│   │   ├── SR71
+│   │   │   └── SR71.obj
+│   │   ├── T38
+│   │   │   ├── TAL16OBJ
+│   │   │   │   ├── TAL16OBJ.mtl
+│   │   │   │   ├── TAL16OBJ.obj
+│   │   │   │   └── TALTS.jpg
+│   │   │   ├── TAL16.blend
+│   │   │   └── TAL16OBJ.zip
+│   │   └── jet_fighter
+│   │       ├── Jet_Fighter.obj
+│   │       └── jet fighter text.txt
+│   └── logo
+│       ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
+│       └── Untitled design.png
 ├── .gitignore
 ├── LICENSE
 ├── README.md
 └── STRUCTURE.md
 
-31 directories, 113 files
+32 directories, 113 files
 ```
