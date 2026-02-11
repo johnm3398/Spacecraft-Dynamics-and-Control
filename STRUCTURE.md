@@ -93,11 +93,12 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── Module 3 - Attitude Control of States and Rates.ipynb
 │   │   └── Module 4 - Alternate Attitude Control Formulations.ipynb
 │   └── 04_mars_mission_capstone
-│       ├── Module 1 - Practice Assignment.ipynb
-│       ├── Module 2 - Orbits.ipynb
-│       ├── module1_part1.txt
-│       ├── module1_part2.txt
-│       └── module1_part3.txt
+│       ├── outputs
+│       │   ├── module1_part1.txt
+│       │   ├── module1_part2.txt
+│       │   └── module1_part3.txt
+│       ├── mars_nanosatellite_attitude_dynamics_and_control.ipynb
+│       └── scDynamicsCapstone-v3.pdf
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
 │   └── README.md
 ├── AVS_reference
@@ -159,5 +160,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-35 directories, 120 files
+36 directories, 120 files
 ```
