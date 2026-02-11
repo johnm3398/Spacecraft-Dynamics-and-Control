@@ -113,20 +113,6 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── MRP.py
 │   ├── PRV.py
 │   └── __init__.py
-├── Studies
-│   ├── Attitude Dynamics and Control
-│   │   └── Body_Rate_from_Quaternions.ipynb
-│   ├── Development of Plotting tools
-│   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
-│   │   ├── coastline.geo.json
-│   │   ├── countries.geo.json
-│   │   ├── custom.geo.json
-│   │   ├── customHigh.geo.json
-│   │   └── mapcoastline.geo.json
-│   └── EOP Visualization Study
-│       ├── EOP Visualization.ipynb
-│       ├── EOP-All.csv
-│       └── countries.geo.json
 ├── assets
 │   ├── aircraft_model
 │   │   ├── SR71
@@ -144,6 +130,20 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   └── logo
 │       ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
 │       └── Untitled design.png
+├── studies
+│   ├── Attitude Dynamics and Control
+│   │   └── Body_Rate_from_Quaternions.ipynb
+│   ├── Development of Plotting tools
+│   │   ├── Development of Plotting tools for Orbit and Attitude Visualization.ipynb
+│   │   ├── coastline.geo.json
+│   │   ├── countries.geo.json
+│   │   ├── custom.geo.json
+│   │   ├── customHigh.geo.json
+│   │   └── mapcoastline.geo.json
+│   └── EOP Visualization Study
+│       ├── EOP Visualization.ipynb
+│       ├── EOP-All.csv
+│       └── countries.geo.json
 ├── .gitignore
 ├── LICENSE
 ├── README.md
