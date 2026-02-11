@@ -72,26 +72,32 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── Module 2 - Torque Free Motion.ipynb
 │   │   ├── Module 3 - Gravity Gradients.ipynb
 │   │   └── Module 4 - Equations of Motion with Momentum Exchange Devices.ipynb
-│   └── 03_control
-│       ├── Images
-│       │   ├── Wk1_AsymptoticStability.PNG
-│       │   ├── Wk1_GlobalStability.PNG
-│       │   ├── Wk1_LagrangeStability.PNG
-│       │   ├── Wk1_LyapunovStability.PNG
-│       │   ├── Wk1_Neighborhood.PNG
-│       │   └── Wk2_EnergyBowl.PNG
-│       ├── Matlab Codes
-│       │   ├── M3_CC1_Q4.m
-│       │   └── M3_CC1_Q5.m
-│       ├── Slides
-│       │   ├── 1 - Nonlinear Stability Definitions.pdf
-│       │   ├── 2 - Overview of Lyapunov Stability Theory.pdf
-│       │   ├── 3 - Attitude control of states and rates.pdf
-│       │   └── 4 - Alternate Attitude Control Formulations.pdf
-│       ├── Module 1 - Nonlinear Stability Definitions.ipynb
-│       ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
-│       ├── Module 3 - Attitude Control of States and Rates.ipynb
-│       └── Module 4 - Alternate Attitude Control Formulations.ipynb
+│   ├── 03_control
+│   │   ├── Images
+│   │   │   ├── Wk1_AsymptoticStability.PNG
+│   │   │   ├── Wk1_GlobalStability.PNG
+│   │   │   ├── Wk1_LagrangeStability.PNG
+│   │   │   ├── Wk1_LyapunovStability.PNG
+│   │   │   ├── Wk1_Neighborhood.PNG
+│   │   │   └── Wk2_EnergyBowl.PNG
+│   │   ├── Matlab Codes
+│   │   │   ├── M3_CC1_Q4.m
+│   │   │   └── M3_CC1_Q5.m
+│   │   ├── Slides
+│   │   │   ├── 1 - Nonlinear Stability Definitions.pdf
+│   │   │   ├── 2 - Overview of Lyapunov Stability Theory.pdf
+│   │   │   ├── 3 - Attitude control of states and rates.pdf
+│   │   │   └── 4 - Alternate Attitude Control Formulations.pdf
+│   │   ├── Module 1 - Nonlinear Stability Definitions.ipynb
+│   │   ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
+│   │   ├── Module 3 - Attitude Control of States and Rates.ipynb
+│   │   └── Module 4 - Alternate Attitude Control Formulations.ipynb
+│   └── 04_mars_mission_capstone
+│       ├── Module 1 - Practice Assignment.ipynb
+│       ├── Module 2 - Orbits.ipynb
+│       ├── module1_part1.txt
+│       ├── module1_part2.txt
+│       └── module1_part3.txt
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
 │   └── README.md
 ├── AVS_reference
@@ -153,5 +159,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-34 directories, 115 files
+35 directories, 120 files
 ```
