@@ -105,7 +105,13 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       │   ├── task1_part2.txt
 │       │   ├── task1_part3.txt
 │       │   ├── task1_part4.txt
-│       │   └── task2_part3.txt
+│       │   ├── task2_part3.txt
+│       │   ├── task3_part1.txt
+│       │   ├── task3_part2.txt
+│       │   ├── task4_part1.txt
+│       │   ├── task4_part2.txt
+│       │   ├── task5_part1.txt
+│       │   └── task5_part2.txt
 │       ├── mars_nanosatellite_attitude_dynamics_and_control.ipynb
 │       └── scDynamicsCapstone-v3.pdf
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
@@ -169,5 +175,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-37 directories, 128 files
+37 directories, 134 files
 ```
