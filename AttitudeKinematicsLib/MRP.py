@@ -27,51 +27,45 @@ def MRP_shadow(sigma: np.ndarray) -> np.ndarray:
     """
     validate_vec3(sigma)
     sigma_norm = np.linalg.norm(sigma)
-    if sigma_norm > 1.0:
-        return -sigma / sigma_norm**2
+    sigma_sq = np.dot(sigma, sigma)
+    if sigma_sq > 1.0:
+        return -sigma / sigma_sq
     return sigma
 
 def MRP_to_DCM(sigma):
     """
-    Converts a Modified Rodrigues Parameters (MRP) vector to a Direction Cosine Matrix (DCM).
+    Convert a Modified Rodrigues Parameters (MRP) vector to a passive
+    Direction Cosine Matrix (DCM).
 
-    The MRP vector, denoted as **σ** (sigma), is a three-element vector representing the orientation
-    of a rigid body in space. This function computes the corresponding 3×3 Direction Cosine Matrix (DCM),
-    which transforms vectors between the body frame and the inertial frame.
+    This function implements the standard MRP-to-DCM mapping used in
+    spacecraft attitude dynamics.
 
-    **Formula:**
+    If sigma represents the attitude sigma_BN (body relative to inertial),
+    the returned matrix C corresponds to the passive DCM [BN], meaning:
 
-        C = I + [ (8 * [σ]^2) - (4 * (1 - σ²) * [σ]) ] / (1 + σ²)²
+        v_B = C * v_N
 
-    where:
+    where v_N are vector components expressed in the inertial frame and
+    v_B are the same vector components expressed in the body frame.
 
-    - **C** is the Direction Cosine Matrix (DCM).
-    - **I** is the 3×3 identity matrix.
-    - **σ²** is the squared norm of the MRP vector σ (i.e., σᵗσ).
-    - **[σ]** is the skew-symmetric matrix of σ.
-    - **[σ]²** is the square of the skew-symmetric matrix.
+    Parameters
+    ----------
+    sigma : array_like, shape (3,)
+        Modified Rodrigues Parameters vector.
 
-    **Args:**
-        sigma (array-like): A 3-element Modified Rodrigues Parameters vector.
+    Returns
+    -------
+    C : ndarray, shape (3,3)
+        Passive Direction Cosine Matrix corresponding to sigma.
 
-    **Returns:**
-        numpy.ndarray: A 3×3 Direction Cosine Matrix (DCM).
-
-    **Raises:**
-        ValueError: If `sigma` is not a valid 3-element vector.
-
-    **Notes:**
-        - The function uses `validate_vec3(sigma)` to ensure that the input is a valid 3-element vector.
-        - The skew-symmetric matrix is computed using the `skew_symmetric` function.
-
-    **Example:**
-
-        >>> sigma = [0.1, 0.2, 0.3]
-        >>> C = MRP_to_DCM(sigma)
-        >>> print(C)
-        [[ 0.79809718 -0.59113624  0.11822704]
-         [ 0.58174827  0.80434783  0.1220741 ]
-         [-0.15876247  0.01600827  0.98720083]]
+    Notes
+    -----
+    - The returned matrix is orthogonal and has determinant +1.
+    - The mapping follows the standard formulation:
+        C = I + (8 * S^2 - 4 * (1 - sigma_sq) * S) / (1 + sigma_sq)^2
+      where S is the skew-symmetric matrix of sigma and
+      sigma_sq = sigma dot sigma.
+    - The function assumes a passive rotation convention.
     """
     # Validate the input vector
     validate_vec3(sigma)
@@ -94,70 +88,55 @@ def MRP_to_DCM(sigma):
 
     return C
 
-def DCM_to_MRP(C):
+def DCM_to_MRP(C: np.ndarray) -> np.ndarray:
     """
-    Converts a Direction Cosine Matrix (DCM) to a Modified Rodrigues Parameters (MRP) vector.
+    Convert a Direction Cosine Matrix (DCM) to Modified Rodrigues Parameters (MRPs).
 
-    The MRP vector **σ** (sigma) provides a singularity-free parameterization of rotations up to 360 degrees,
-    with the exception of rotations of 360 degrees. To avoid singularities and ensure that the norm of the MRP vector
-    satisfies |σ| ≤ 1, the function switches to the shadow set when necessary.
+    This implementation uses the closed-form DCM to MRP relation (no quaternion
+    intermediate). For a proper orthogonal DCM C, define:
 
-    **Algorithm:**
+        z = sqrt(trace(C) + 1)
 
-    1. Convert the DCM to a quaternion representation.
-    2. Normalize the quaternion to ensure it represents a valid rotation.
-    3. Extract the scalar (q₀) and vector (q₁, q₂, q₃) parts of the quaternion.
-    4. If q₀ is negative, negate the quaternion components to ensure the shortest rotation.
-    5. Compute the MRP vector using:
+    Then the MRP vector is computed as:
 
-        σ = q_v / (1 + q₀)
+        sigma = 1 / ( z * (z + 2) ) * [ C12 - C21,
+                                        C20 - C02,
+                                        C01 - C10 ]
+    Note that the indices of the elements are reflective of programming conventions (0, 1, 2...)
 
-    where:
-        - q_v is the vector part of the quaternion.
-        - q₀ is the scalar part of the quaternion.
+    This produces an MRP representation consistent with the standard Schaub
+    formulation for passive DCMs.
 
-    **Args:**
-        C (numpy.ndarray): A 3×3 Direction Cosine Matrix (DCM).
+    Parameters
+    ----------
+    C : ndarray, shape (3,3)
+        Direction Cosine Matrix (must be a valid rotation matrix).
 
-    **Returns:**
-        numpy.ndarray: A 3-element MRP vector **σ**.
+    Returns
+    -------
+    sigma : ndarray, shape (3,)
+        Modified Rodrigues Parameters vector corresponding to C.
 
-    **Raises:**
-        ValueError: If the input matrix `C` is not a valid 3×3 rotation matrix.
-
-    **Notes:**
-        - The function ensures that the MRP vector has a norm |σ| ≤ 1 by switching to the shadow set when necessary.
-        - The conversion relies on intermediate conversion to quaternions.
-        - The function uses the `DCM_to_EP` helper function for the DCM to quaternion conversion.
-
-    **Example:**
-
-        >>> C = np.eye(3)  # Identity matrix represents zero rotation
-        >>> sigma = DCM_to_MRP(C)
-        >>> print(sigma)
-        [0. 0. 0.]
+    Notes
+    -----
+    - This function does not apply the MRP shadow set. If you require the
+      principal set (norm <= 1), apply MRP_shadow(sigma) at the call site.
+    - The expression involves z = sqrt(trace(C) + 1). For rotations near 180 deg,
+      trace(C) approaches -1, which can amplify numerical sensitivity. This is
+      inherent to this closed-form extraction.
 
     """
-    # Validate Input DCM
     validate_DCM(C)
 
-    # Convert DCM to quaternion [q0, q1, q2, q3]
-    q = DCM_to_EP(C)
-
-    # Normalize the quaternion to ensure it represents a valid rotation
-    q = q / np.linalg.norm(q)
-
-    # Extract scalar (q0) and vector (q1, q2, q3) parts
-    q0 = q[0]  # Scalar part
-    qv = q[1:]  # Vector part
-
-    # Switch to the shadow set if necessary to ensure |σ| ≤ 1
-    if q0 < 0:
-        q0 = -q0
-        qv = -qv
-
-    # Compute the MRP vector
-    sigma = qv / (1 + q0)
+    z = np.sqrt(np.trace(C) + 1.0)
+    sigma = (1.0 / (z * (z + 2.0))) * np.array(
+        [
+            C[1, 2] - C[2, 1],
+            C[2, 0] - C[0, 2],
+            C[0, 1] - C[1, 0],
+        ],
+        dtype=float,
+    )
 
     return sigma
 
