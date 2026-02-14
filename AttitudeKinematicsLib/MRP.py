@@ -3,6 +3,34 @@ import numpy as np
 from .DCM_utils import *
 from .EulerRodriguesParameters import DCM_to_EP
 
+def MRP_shadow(sigma: np.ndarray) -> np.ndarray:
+    """
+    Enforce the principal MRP set by applying the shadow transformation.
+
+    Parameters
+    ----------
+    sigma : (3,) array_like
+        Modified Rodrigues Parameters vector.
+
+    Returns
+    -------
+    sigma_out : (3,) ndarray
+        Equivalent MRP vector. If ||sigma|| > 1, the shadow set
+        sigma_shadow = -sigma / ||sigma||^2 is returned to maintain
+        numerical conditioning. Otherwise sigma is returned unchanged.
+
+    Notes
+    -----
+    The shadow set represents the same physical attitude but keeps
+    the parameter norm bounded (||sigma|| <= 1), preventing numerical
+    growth during integration.
+    """
+    validate_vec3(sigma)
+    sigma_norm = np.linalg.norm(sigma)
+    if sigma_norm > 1.0:
+        return -sigma / sigma_norm**2
+    return sigma
+
 def MRP_to_DCM(sigma):
     """
     Converts a Modified Rodrigues Parameters (MRP) vector to a Direction Cosine Matrix (DCM).
