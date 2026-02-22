@@ -144,6 +144,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       ├── mars_nanosatellite_attitude_dynamics_and_control.ipynb
 │       └── scDynamicsCapstone-v3.pdf
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
+│   ├── 01_momentum_exchange_devices
+│   │   └── Module 1 - Revisiting Basics of Spacecraft Kinematics.ipynb
 │   └── README.md
 ├── AVS_reference
 │   ├── zip_files
@@ -204,5 +206,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-37 directories, 163 files
+38 directories, 164 files
 ```
