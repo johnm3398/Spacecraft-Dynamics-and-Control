@@ -197,9 +197,9 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── custom.geo.json
 │   │   ├── customHigh.geo.json
 │   │   └── mapcoastline.geo.json
-│   └── EOP Visualization Study
-│       ├── EOP Visualization.ipynb
+│   └── Earth Orientation Parameters Study
 │       ├── EOP-All.csv
+│       ├── EOP_Theory_and_Implementation.ipynb
 │       └── countries.geo.json
 ├── .gitignore
 ├── LICENSE
