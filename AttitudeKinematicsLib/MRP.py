@@ -26,10 +26,55 @@ def MRP_shadow(sigma: np.ndarray) -> np.ndarray:
     growth during integration.
     """
     validate_vec3(sigma)
-    sigma_norm = np.linalg.norm(sigma)
-    sigma_sq = np.dot(sigma, sigma)
-    if sigma_sq > 1.0:
-        return -sigma / sigma_sq
+    sigma_norm_sq = float(sigma @ sigma)
+    if sigma_norm_sq > 1.0:
+        return -sigma / sigma_norm_sq
+    return sigma
+
+def MRP_compose(s1: np.ndarray, s2: np.ndarray, mode: str = "add") -> np.ndarray:
+    """
+    Compose or subtract two MRP sets directly.
+
+    Parameters
+    ----------
+    s1 : (3,) array_like
+        First MRP set.
+    s2 : (3,) array_like
+        Second MRP set.
+    mode : {'add', 'sub'}, optional
+        Operation mode:
+        - 'add' returns the composed attitude
+        - 'sub' returns the relative attitude from s2 to s1
+
+    Returns
+    -------
+    sigma : (3,) ndarray
+        Resulting MRP set, mapped to the principal set if needed.
+    """
+    validate_vec3(s1)
+    validate_vec3(s2)
+
+    s1 = np.asarray(s1, dtype=float).reshape(3,)
+    s2 = np.asarray(s2, dtype=float).reshape(3,)
+
+    s1_norm_sq = s1 @ s1
+    s2_norm_sq = s2 @ s2
+    s1_dot_s2 = s1 @ s2
+    s1_cross_s2 = np.cross(s1, s2)
+
+    if mode == "add":
+        numerator = (1.0 - s1_norm_sq) * s2 + (1.0 - s2_norm_sq) * s1 + 2.0 * s1_cross_s2
+        denominator = 1.0 + s1_norm_sq * s2_norm_sq - 2.0 * s1_dot_s2
+
+    elif mode == "sub":
+        numerator = (1.0 - s2_norm_sq) * s1 - (1.0 - s1_norm_sq) * s2 + 2.0 * s1_cross_s2
+        denominator = 1.0 + s1_norm_sq * s2_norm_sq + 2.0 * s1_dot_s2
+
+    else:
+        raise ValueError("mode must be 'add' or 'sub'")
+
+    sigma = numerator / denominator
+    sigma = MRP_shadow(sigma)
     return sigma
 
 def MRP_to_DCM(sigma):
