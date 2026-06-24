@@ -146,7 +146,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
 │   ├── 01_momentum_exchange_devices
 │   │   ├── Module 1 - Revisiting Basics of Spacecraft Kinematics.ipynb
-│   │   └── Module 2 - Revisiting Basics of Spacecraft Kinetics.ipynb
+│   │   ├── Module 2 - Revisiting Basics of Spacecraft Kinetics.ipynb
+│   │   └── Module 3 - Revisiting Basics of Nonlinear Spacecraft Control.ipynb
 │   └── README.md
 ├── AVS_reference
 │   ├── zip_files
@@ -208,5 +209,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-38 directories, 166 files
+38 directories, 167 files
 ```
