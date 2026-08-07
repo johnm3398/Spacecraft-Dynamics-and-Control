@@ -170,6 +170,249 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── MRP.py
 │   ├── PRV.py
 │   └── __init__.py
+├── BASILISK-X
+│   ├── examples
+│   │   ├── BskSim
+│   │   │   ├── models
+│   │   │   │   ├── BSK_Dynamics.py
+│   │   │   │   ├── BSK_Faults.py
+│   │   │   │   ├── BSK_FormationDynamics.py
+│   │   │   │   ├── BSK_FormationFsw.py
+│   │   │   │   └── BSK_Fsw.py
+│   │   │   ├── plotting
+│   │   │   │   └── BSK_Plotting.py
+│   │   │   ├── scenarios
+│   │   │   │   ├── scenario_AddRWFault.py
+│   │   │   │   ├── scenario_AttEclipse.py
+│   │   │   │   ├── scenario_AttFeedback.py
+│   │   │   │   ├── scenario_AttGuidHyperbolic.py
+│   │   │   │   ├── scenario_AttGuidance.py
+│   │   │   │   ├── scenario_AttModes.py
+│   │   │   │   ├── scenario_AttSteering.py
+│   │   │   │   ├── scenario_BasicOrbit.py
+│   │   │   │   ├── scenario_BasicOrbitFormation.py
+│   │   │   │   ├── scenario_FaultList.py
+│   │   │   │   ├── scenario_FeedbackRW.py
+│   │   │   │   ├── scenario_LambertGuidance.py
+│   │   │   │   └── scenario_RelativePointingFormation.py
+│   │   │   └── BSK_masters.py
+│   │   ├── MonteCarloExamples
+│   │   │   ├── scenarioBskSimAttFeedbackMC.py
+│   │   │   ├── scenarioRerunMonteCarlo.py
+│   │   │   └── scenarioVisualizeMonteCarlo.py
+│   │   ├── MultiSatBskSim
+│   │   │   ├── modelsMultiSat
+│   │   │   │   ├── BSK_EnvironmentEarth.py
+│   │   │   │   ├── BSK_EnvironmentMercury.py
+│   │   │   │   ├── BSK_MultiSatDynamics.py
+│   │   │   │   └── BSK_MultiSatFsw.py
+│   │   │   ├── plottingMultiSat
+│   │   │   │   └── BSK_MultiSatPlotting.py
+│   │   │   ├── scenariosMultiSat
+│   │   │   │   ├── scenario_AttGuidMultiSat.py
+│   │   │   │   ├── scenario_BasicOrbitMultiSat.py
+│   │   │   │   ├── scenario_BasicOrbitMultiSat_MT.py
+│   │   │   │   ├── scenario_StationKeepingMultiSat.py
+│   │   │   │   └── scenario_constellationFromTle.py
+│   │   │   ├── tleData
+│   │   │   │   ├── README.md
+│   │   │   │   ├── hypso1.tle
+│   │   │   │   ├── oneWeb25.tle
+│   │   │   │   └── spacestations.2le
+│   │   │   └── BSK_MultiSatMasters.py
+│   │   ├── OpNavScenarios
+│   │   │   ├── modelsOpNav
+│   │   │   │   ├── BSK_OpNavDynamics.py
+│   │   │   │   └── BSK_OpNavFsw.py
+│   │   │   ├── plottingOpNav
+│   │   │   │   └── OpNav_Plotting.py
+│   │   │   ├── scenariosOpNav
+│   │   │   │   ├── CNN_ImageGen
+│   │   │   │   │   ├── OpNavMonteCarlo.py
+│   │   │   │   │   └── scenario_CNNImages.py
+│   │   │   │   ├── OpNavMC
+│   │   │   │   │   ├── MonteCarlo.py
+│   │   │   │   │   ├── scenario_LimbAttOD.py
+│   │   │   │   │   └── scenario_OpNavAttODMC.py
+│   │   │   │   ├── scenario_CNNAttOD.py
+│   │   │   │   ├── scenario_OpNavAttOD.py
+│   │   │   │   ├── scenario_OpNavAttODLimb.py
+│   │   │   │   ├── scenario_OpNavHeading.py
+│   │   │   │   ├── scenario_OpNavOD.py
+│   │   │   │   ├── scenario_OpNavODLimb.py
+│   │   │   │   ├── scenario_OpNavPoint.py
+│   │   │   │   ├── scenario_OpNavPointLimb.py
+│   │   │   │   └── scenario_faultDetOpNav.py
+│   │   │   └── BSK_OpNav.py
+│   │   ├── Support
+│   │   │   └── run_MC_IC
+│   │   │       ├── run0.json
+│   │   │       ├── run1.json
+│   │   │       └── run2.json
+│   │   ├── dataForExamples
+│   │   │   ├── Itokawa
+│   │   │   │   ├── ItokawaGrayscale.jpg
+│   │   │   │   ├── ItokawaHayabusa.mtl
+│   │   │   │   └── ItokawaHayabusa.obj
+│   │   │   ├── Spice
+│   │   │   │   └── spacecraft_21T01.bsp
+│   │   │   ├── texture
+│   │   │   │   ├── foil_gold_ramp.png
+│   │   │   │   ├── foil_n.png
+│   │   │   │   ├── foil_silver_ramp.png
+│   │   │   │   ├── panel.jpg
+│   │   │   │   └── tex_01.psd
+│   │   │   ├── Aura_27.mtl
+│   │   │   ├── Aura_27.obj
+│   │   │   ├── GOESR_bus_80_sphs.csv
+│   │   │   ├── Loral-1300Com-main.mtl
+│   │   │   ├── Loral-1300Com-main.obj
+│   │   │   ├── scHoldTraj_rotating_EP.csv
+│   │   │   ├── scHoldTraj_rotating_MRP.csv
+│   │   │   ├── static_lqr_controlGain.npz
+│   │   │   └── triangularPanel.obj
+│   │   ├── mujoco
+│   │   │   ├── mujocoModels
+│   │   │   │   ├── BSK_MujocoDynamics.py
+│   │   │   │   └── BSK_MujocoFSW.py
+│   │   │   ├── BSK_mujocoMasters.py
+│   │   │   ├── sat_ast_landing.xml
+│   │   │   ├── sat_w_branching_panels.xml
+│   │   │   ├── sat_w_companion.xml
+│   │   │   ├── sat_w_deployable_panels.xml
+│   │   │   ├── sat_w_deployable_thruster.xml
+│   │   │   ├── sat_w_thruster_arms.xml
+│   │   │   ├── sat_w_thrusters.xml
+│   │   │   ├── sat_w_wheel.xml
+│   │   │   ├── sats_dock.xml
+│   │   │   ├── scenarioArmWithThrusters.py
+│   │   │   ├── scenarioAsteroidLanding.py
+│   │   │   ├── scenarioAttitudeFeedbackRWMuJoCo.py
+│   │   │   ├── scenarioBranchingPanels.py
+│   │   │   ├── scenarioDeployPanels.py
+│   │   │   ├── scenarioFormationFlyingWithDrag.py
+│   │   │   ├── scenarioMJEarthMoonGravity.py
+│   │   │   ├── scenarioMJSceneVizard.py
+│   │   │   ├── scenarioReactionWheel.py
+│   │   │   ├── scenarioSRPInPanels.py
+│   │   │   ├── scenarioSimpleDocking.py
+│   │   │   ├── scenarioStochasticDrag.py
+│   │   │   ├── scenarioThrArmControl.py
+│   │   │   └── scenarioUnbalancedThrusters.py
+│   │   ├── SunLineKF_test_utilities.py
+│   │   ├── _default.rst
+│   │   ├── scenarioAerocapture.py
+│   │   ├── scenarioAlbedo.py
+│   │   ├── scenarioAsteroidArrival.py
+│   │   ├── scenarioAttGuideHyperbolic.py
+│   │   ├── scenarioAttLocPoint.py
+│   │   ├── scenarioAttitudeConstrainedManeuver.py
+│   │   ├── scenarioAttitudeConstraintViolation.py
+│   │   ├── scenarioAttitudeFeedback.py
+│   │   ├── scenarioAttitudeFeedback2T.py
+│   │   ├── scenarioAttitudeFeedback2T_TH.py
+│   │   ├── scenarioAttitudeFeedback2T_stateEffTH.py
+│   │   ├── scenarioAttitudeFeedbackNoEarth.py
+│   │   ├── scenarioAttitudeFeedbackNumba.py
+│   │   ├── scenarioAttitudeFeedbackRW.py
+│   │   ├── scenarioAttitudeFeedbackRWPower.py
+│   │   ├── scenarioAttitudeGG.py
+│   │   ├── scenarioAttitudeGuidance.py
+│   │   ├── scenarioAttitudePointing.py
+│   │   ├── scenarioAttitudePointingNumba.py
+│   │   ├── scenarioAttitudePointingPy.py
+│   │   ├── scenarioAttitudePrescribed.py
+│   │   ├── scenarioAttitudeSteering.py
+│   │   ├── scenarioBasicOrbit.py
+│   │   ├── scenarioBasicOrbitStream.py
+│   │   ├── scenarioBenchmarkNumba.py
+│   │   ├── scenarioBskLog.py
+│   │   ├── scenarioCSS.py
+│   │   ├── scenarioCSSFilters.py
+│   │   ├── scenarioCentralBody.py
+│   │   ├── scenarioConstrainedDynamics.py
+│   │   ├── scenarioConstrainedDynamicsComponentAnalysis.py
+│   │   ├── scenarioConstrainedDynamicsFrequencyAnalysis.py
+│   │   ├── scenarioConstrainedDynamicsManeuverAnalysis.py
+│   │   ├── scenarioCustomGravBody.py
+│   │   ├── scenarioDataDemo.py
+│   │   ├── scenarioDataToViz.py
+│   │   ├── scenarioDebrisReorbitET.py
+│   │   ├── scenarioDeployingPanel.py
+│   │   ├── scenarioDeployingSolarArrays.py
+│   │   ├── scenarioDragDeorbit.py
+│   │   ├── scenarioDragRendezvous.py
+│   │   ├── scenarioDragSensitivity.py
+│   │   ├── scenarioExtendingBoom.py
+│   │   ├── scenarioFlexiblePanel.py
+│   │   ├── scenarioFlybySpice.py
+│   │   ├── scenarioFormationBasic.py
+│   │   ├── scenarioFormationMeanOEFeedback.py
+│   │   ├── scenarioFormationReconfig.py
+│   │   ├── scenarioFuelSlosh.py
+│   │   ├── scenarioGaussMarkovRandomWalk.py
+│   │   ├── scenarioGroundDownlink.py
+│   │   ├── scenarioGroundLocationImaging.py
+│   │   ├── scenarioGroundMapping.py
+│   │   ├── scenarioGroundTracks.py
+│   │   ├── scenarioHaloOrbit.py
+│   │   ├── scenarioHelioTransSpice.py
+│   │   ├── scenarioHingedRigidBody.py
+│   │   ├── scenarioHohmann.py
+│   │   ├── scenarioImpact.py
+│   │   ├── scenarioInertialSpiral.py
+│   │   ├── scenarioIntegrators.py
+│   │   ├── scenarioIntegratorsComparison.py
+│   │   ├── scenarioJupiterArrival.py
+│   │   ├── scenarioLagrangePointOrbit.py
+│   │   ├── scenarioLambertSolver.py
+│   │   ├── scenarioMagneticFieldCenteredDipole.py
+│   │   ├── scenarioMagneticFieldWMM.py
+│   │   ├── scenarioMomentumDumping.py
+│   │   ├── scenarioMonteCarloAttRW.py
+│   │   ├── scenarioMonteCarloSpice.py
+│   │   ├── scenarioMtbMomentumManagement.py
+│   │   ├── scenarioMtbMomentumManagementSimple.py
+│   │   ├── scenarioOrbitConsistencyVerification.py
+│   │   ├── scenarioOrbitManeuver.py
+│   │   ├── scenarioOrbitManeuverTH.py
+│   │   ├── scenarioOrbitMultiBody.py
+│   │   ├── scenarioPatchedConics.py
+│   │   ├── scenarioPowerDemo.py
+│   │   ├── scenarioPrescribedMotionWithRotationBranching.py
+│   │   ├── scenarioPrescribedMotionWithTranslationBranching.py
+│   │   ├── scenarioPrescribedScrewMotion.py
+│   │   ├── scenarioQuadMaps.py
+│   │   ├── scenarioRendezVous.py
+│   │   ├── scenarioRoboticArm.py
+│   │   ├── scenarioRotatingPanel.py
+│   │   ├── scenarioSatelliteConstellation.py
+│   │   ├── scenarioSensorThermal.py
+│   │   ├── scenarioSepMomentumManagement.py
+│   │   ├── scenarioSmallBodyFeedbackControl.py
+│   │   ├── scenarioSmallBodyLandmarks.py
+│   │   ├── scenarioSmallBodyNav.py
+│   │   ├── scenarioSmallBodyNavUKF.py
+│   │   ├── scenarioSpacecraftLocation.py
+│   │   ├── scenarioSpiceReconstruction.py
+│   │   ├── scenarioSpiceSpacecraft.py
+│   │   ├── scenarioSpinningBodiesTwoDOF.py
+│   │   ├── scenarioStochasticDragSpacecraft.py
+│   │   ├── scenarioStripImaging.py
+│   │   ├── scenarioSweepingSpacecraft.py
+│   │   ├── scenarioTAM.py
+│   │   ├── scenarioTAMcomparison.py
+│   │   ├── scenarioTempMeasurementAttitude.py
+│   │   ├── scenarioTwoChargedSC.py
+│   │   ├── scenarioVariableTimeStepIntegrators.py
+│   │   ├── scenarioVestaOrientation.py
+│   │   └── scenarioVizPoint.py
+│   ├── .gitignore
+│   ├── README.md
+│   └── requirements.txt
+├── Studies
+│   └── pvt_study
+│       └── gnc_assignment.ipynb
 ├── archive
 │   └── README.md
 ├── assets
@@ -209,5 +452,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-38 directories, 167 files
+66 directories, 382 files
 ```
