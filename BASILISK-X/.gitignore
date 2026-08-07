@@ -1,0 +1,10 @@
+basiliskx_env/
+__pycache__/
+*.py[cod]
+.DS_Store
+.ipynb_checkpoints/
+_VizFiles/
+*.bin
+build/
+dist/
+*.egg-info/
