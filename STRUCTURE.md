@@ -408,16 +408,27 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── scenarioVestaOrientation.py
 │   │   └── scenarioVizPoint.py
 │   ├── scenarios
-│   │   └── basic_earth_orbit
+│   │   ├── basic_earth_orbit
+│   │   │   ├── output
+│   │   │   │   ├── plots
+│   │   │   │   │   ├── altitude.png
+│   │   │   │   │   ├── ground_track.png
+│   │   │   │   │   ├── inertial_trajectory.png
+│   │   │   │   │   └── orbital_elements.png
+│   │   │   │   └── vizard
+│   │   │   │       └── basic_earth_orbit.bin
+│   │   │   └── basic_earth_orbit.py
+│   │   └── nadir_pointing
 │   │       ├── output
 │   │       │   ├── plots
-│   │       │   │   ├── altitude.png
+│   │       │   │   ├── attitude_error.png
+│   │       │   │   ├── control_torque.png
 │   │       │   │   ├── ground_track.png
-│   │       │   │   ├── inertial_trajectory.png
-│   │       │   │   └── orbital_elements.png
+│   │       │   │   ├── nadir_pointing_error.png
+│   │       │   │   └── rate_error.png
 │   │       │   └── vizard
-│   │       │       └── basic_earth_orbit.bin
-│   │       └── basic_earth_orbit.py
+│   │       │       └── nadir_pointing.bin
+│   │       └── nadir_pointing.py
 │   ├── src
 │   │   └── basiliskx
 │   │       ├── visualization
@@ -473,5 +484,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-75 directories, 394 files
+79 directories, 401 files
 ```
