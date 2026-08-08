@@ -414,6 +414,7 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │       │   └── vizard_launcher.py
 │   │       └── __init__.py
 │   ├── tests
+│   │   ├── test_auto_vizard_stream.py
 │   │   └── test_vizard_launcher.py
 │   ├── .gitignore
 │   ├── README.md
@@ -461,5 +462,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-70 directories, 387 files
+70 directories, 388 files
 ```
