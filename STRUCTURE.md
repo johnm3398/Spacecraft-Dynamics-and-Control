@@ -410,11 +410,13 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── scenarios
 │   │   └── basic_earth_orbit
 │   │       ├── output
-│   │       │   └── plots
-│   │       │       ├── altitude.png
-│   │       │       ├── ground_track.png
-│   │       │       ├── inertial_trajectory.png
-│   │       │       └── orbital_elements.png
+│   │       │   ├── plots
+│   │       │   │   ├── altitude.png
+│   │       │   │   ├── ground_track.png
+│   │       │   │   ├── inertial_trajectory.png
+│   │       │   │   └── orbital_elements.png
+│   │       │   └── vizard
+│   │       │       └── basic_earth_orbit.bin
 │   │       └── basic_earth_orbit.py
 │   ├── src
 │   │   └── basiliskx
@@ -471,5 +473,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-74 directories, 393 files
+75 directories, 394 files
 ```
