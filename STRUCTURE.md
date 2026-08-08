@@ -418,6 +418,16 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   │   │   └── vizard
 │   │   │   │       └── basic_earth_orbit.bin
 │   │   │   └── basic_earth_orbit.py
+│   │   ├── cooperative_geo_rendezvous
+│   │   │   ├── output
+│   │   │   │   ├── plots
+│   │   │   │   │   ├── closing_rate.png
+│   │   │   │   │   ├── hill_relative_trajectory.png
+│   │   │   │   │   ├── relative_range.png
+│   │   │   │   │   └── target_pointing_error.png
+│   │   │   │   └── vizard
+│   │   │   │       └── cooperative_geo_rendezvous.bin
+│   │   │   └── cooperative_geo_rendezvous.py
 │   │   └── nadir_pointing
 │   │       ├── output
 │   │       │   ├── plots
@@ -484,5 +494,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-79 directories, 401 files
+83 directories, 407 files
 ```
