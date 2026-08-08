@@ -407,8 +407,17 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── scenarioVariableTimeStepIntegrators.py
 │   │   ├── scenarioVestaOrientation.py
 │   │   └── scenarioVizPoint.py
+│   ├── src
+│   │   └── basiliskx
+│   │       ├── visualization
+│   │       │   ├── __init__.py
+│   │       │   └── vizard_launcher.py
+│   │       └── __init__.py
+│   ├── tests
+│   │   └── test_vizard_launcher.py
 │   ├── .gitignore
 │   ├── README.md
+│   ├── pyproject.toml
 │   └── requirements.txt
 ├── Studies
 │   └── pvt_study
@@ -452,5 +461,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-66 directories, 382 files
+70 directories, 387 files
 ```
