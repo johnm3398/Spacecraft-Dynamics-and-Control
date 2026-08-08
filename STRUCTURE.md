@@ -407,6 +407,15 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── scenarioVariableTimeStepIntegrators.py
 │   │   ├── scenarioVestaOrientation.py
 │   │   └── scenarioVizPoint.py
+│   ├── scenarios
+│   │   └── basic_earth_orbit
+│   │       ├── output
+│   │       │   └── plots
+│   │       │       ├── altitude.png
+│   │       │       ├── ground_track.png
+│   │       │       ├── inertial_trajectory.png
+│   │       │       └── orbital_elements.png
+│   │       └── basic_earth_orbit.py
 │   ├── src
 │   │   └── basiliskx
 │   │       ├── visualization
@@ -462,5 +471,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-70 directories, 388 files
+74 directories, 393 files
 ```
