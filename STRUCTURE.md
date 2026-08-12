@@ -151,6 +151,11 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   └── Module 3 - Revisiting Basics of Nonlinear Spacecraft Control.ipynb
 │   └── README.md
 ├── 03_spacecraft_formation_relative_orbits_specialization
+│   ├── 01_relative_motion_kinematics_and_kinetics
+│   │   ├── Module 1 - Revisiting Basics of Keplerian Motion.ipynb
+│   │   ├── Module 2 - Variation of Parameters.ipynb
+│   │   ├── Module 3 - Spacecraft Formation Flying.ipynb
+│   │   └── Module 4 - Bounded Relative Motion.ipynb
 │   └── README.md
 ├── AVS_reference
 │   ├── zip_files
@@ -497,5 +502,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-84 directories, 409 files
+85 directories, 413 files
 ```
