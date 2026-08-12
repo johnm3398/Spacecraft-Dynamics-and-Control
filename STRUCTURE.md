@@ -152,6 +152,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   └── README.md
 ├── 03_spacecraft_formation_relative_orbits
 │   └── README.md
+├── 03_spacecraft_formation_relative_orbits_specialization
+│   └── README.md
 ├── AVS_reference
 │   ├── zip_files
 │   │   ├── OrbitalMotion-Python.zip
@@ -497,5 +499,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-84 directories, 409 files
+85 directories, 410 files
 ```
