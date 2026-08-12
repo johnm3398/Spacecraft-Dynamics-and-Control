@@ -92,57 +92,58 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
 │   │   ├── Module 3 - Attitude Control of States and Rates.ipynb
 │   │   └── Module 4 - Alternate Attitude Control Formulations.ipynb
-│   └── 04_mars_mission_capstone
-│       ├── images
-│       │   ├── figure_1.png
-│       │   ├── figure_2.png
-│       │   └── figure_3.png
-│       ├── outputs
-│       │   ├── module1_part1.txt
-│       │   ├── module1_part2.txt
-│       │   ├── module1_part3.txt
-│       │   ├── task1_part1.txt
-│       │   ├── task1_part2.txt
-│       │   ├── task1_part3.txt
-│       │   ├── task1_part4.txt
-│       │   ├── task2_part3.txt
-│       │   ├── task3_part1.txt
-│       │   ├── task3_part2.txt
-│       │   ├── task4_part1.txt
-│       │   ├── task4_part2.txt
-│       │   ├── task5_part1.txt
-│       │   ├── task5_part2.txt
-│       │   ├── task6_part1.txt
-│       │   ├── task6_part2.txt
-│       │   ├── task6_part3.txt
-│       │   ├── task6_part4.txt
-│       │   ├── task6_part5.txt
-│       │   ├── task6_part6.txt
-│       │   ├── task7_part1.txt
-│       │   ├── task7_part2.txt
-│       │   ├── task7_part3.txt
-│       │   ├── task7_part4.txt
-│       │   ├── task7_part5.txt
-│       │   ├── task8_part1.txt
-│       │   ├── task8_part2.txt
-│       │   ├── task8_part3.txt
-│       │   ├── task8_part4.txt
-│       │   ├── task8_part5.txt
-│       │   ├── task9_part1.txt
-│       │   ├── task9_part2.txt
-│       │   ├── task9_part3.txt
-│       │   ├── task9_part4.txt
-│       │   ├── task10_part1.txt
-│       │   ├── task10_part2.txt
-│       │   ├── task10_part3.txt
-│       │   ├── task10_part4.txt
-│       │   ├── task11_part1.txt
-│       │   ├── task11_part2.txt
-│       │   ├── task11_part3.txt
-│       │   ├── task11_part4.txt
-│       │   └── task11_part5.txt
-│       ├── mars_nanosatellite_attitude_dynamics_and_control.ipynb
-│       └── scDynamicsCapstone-v3.pdf
+│   ├── 04_mars_mission_capstone
+│   │   ├── images
+│   │   │   ├── figure_1.png
+│   │   │   ├── figure_2.png
+│   │   │   └── figure_3.png
+│   │   ├── outputs
+│   │   │   ├── module1_part1.txt
+│   │   │   ├── module1_part2.txt
+│   │   │   ├── module1_part3.txt
+│   │   │   ├── task1_part1.txt
+│   │   │   ├── task1_part2.txt
+│   │   │   ├── task1_part3.txt
+│   │   │   ├── task1_part4.txt
+│   │   │   ├── task2_part3.txt
+│   │   │   ├── task3_part1.txt
+│   │   │   ├── task3_part2.txt
+│   │   │   ├── task4_part1.txt
+│   │   │   ├── task4_part2.txt
+│   │   │   ├── task5_part1.txt
+│   │   │   ├── task5_part2.txt
+│   │   │   ├── task6_part1.txt
+│   │   │   ├── task6_part2.txt
+│   │   │   ├── task6_part3.txt
+│   │   │   ├── task6_part4.txt
+│   │   │   ├── task6_part5.txt
+│   │   │   ├── task6_part6.txt
+│   │   │   ├── task7_part1.txt
+│   │   │   ├── task7_part2.txt
+│   │   │   ├── task7_part3.txt
+│   │   │   ├── task7_part4.txt
+│   │   │   ├── task7_part5.txt
+│   │   │   ├── task8_part1.txt
+│   │   │   ├── task8_part2.txt
+│   │   │   ├── task8_part3.txt
+│   │   │   ├── task8_part4.txt
+│   │   │   ├── task8_part5.txt
+│   │   │   ├── task9_part1.txt
+│   │   │   ├── task9_part2.txt
+│   │   │   ├── task9_part3.txt
+│   │   │   ├── task9_part4.txt
+│   │   │   ├── task10_part1.txt
+│   │   │   ├── task10_part2.txt
+│   │   │   ├── task10_part3.txt
+│   │   │   ├── task10_part4.txt
+│   │   │   ├── task11_part1.txt
+│   │   │   ├── task11_part2.txt
+│   │   │   ├── task11_part3.txt
+│   │   │   ├── task11_part4.txt
+│   │   │   └── task11_part5.txt
+│   │   ├── mars_nanosatellite_attitude_dynamics_and_control.ipynb
+│   │   └── scDynamicsCapstone-v3.pdf
+│   └── README.md
 ├── 02_advanced_spacecraft_dynamics_and_control_specialization
 │   ├── 01_momentum_exchange_devices
 │   │   ├── Module 1 - Revisiting Basics of Spacecraft Kinematics.ipynb
@@ -494,5 +495,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-83 directories, 407 files
+83 directories, 408 files
 ```
