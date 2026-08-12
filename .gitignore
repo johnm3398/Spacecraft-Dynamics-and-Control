@@ -1,7 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
 
-*.pyc
-AttitudeKinematicsLib/__pycache__/DCM_utils.cpython-311.pyc
-Codes from AVS Lab/__pycache__/RigidBodyKinematics.cpython-311.pyc
+# Jupyter
+**/.ipynb_checkpoints/
+
+# macOS
 .DS_Store
-/.vscode
-/01_spacecraft_dynamics_and_control_specialization/images_for_linkedin
+
+# VS Code
+.vscode/
+
+# Project-specific
+/01_spacecraft_dynamics_and_control_specialization/images_for_linkedin/
