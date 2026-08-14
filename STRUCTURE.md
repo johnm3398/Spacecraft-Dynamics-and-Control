@@ -460,9 +460,6 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── README.md
 │   ├── pyproject.toml
 │   └── requirements.txt
-├── Studies
-│   └── pvt_study
-│       └── gnc_assignment.ipynb
 ├── archive
 │   └── README.md
 ├── assets
@@ -502,5 +499,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-85 directories, 413 files
+83 directories, 412 files
 ```
