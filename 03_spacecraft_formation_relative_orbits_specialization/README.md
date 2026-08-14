@@ -34,6 +34,9 @@ The objective is to develop both an intuitive and mathematical understanding of 
 
 ```text
 03_spacecraft_formation_relative_orbits/
+├── 01_relative_motion_kinematics_and_kinetics/
+├── 02_spacecraft_relative_motion_control/
+└── 03_spacecraft_formation_flying_capstone/
 ```
 
 The folder structure will be expanded as I progress through the specialization.
