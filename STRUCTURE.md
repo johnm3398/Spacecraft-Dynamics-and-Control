@@ -154,6 +154,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── 01_relative_motion_kinematics_and_kinetics
 │   │   ├── Images
 │   │   │   └── Quiz2_Qn2.png
+│   │   ├── media
+│   │   │   └── multi_frame_kinematics_comparison_linkedin.png
 │   │   ├── Module 1 - Revisiting Basics of Keplerian Motion.ipynb
 │   │   ├── Module 2 - Variation of Parameters.ipynb
 │   │   ├── Module 3 - Spacecraft Formation Flying.ipynb
@@ -501,5 +503,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-84 directories, 413 files
+85 directories, 414 files
 ```
