@@ -87,6 +87,12 @@ Current and planned work includes:
 
 The intention is to progressively increase model fidelity while retaining a clear understanding of the underlying physics and software architecture.
 
+## Documentation
+
+The Markdown source for the evolving **Basilisk Engineering Field Manual** is in [`docs/`](docs/README.md). Start with the [`Quick Start`](docs/QUICK_START.md).
+
+The initial manual pages are AI-generated working drafts. They are explicitly marked as unvetted and will be technically reviewed, corrected, and maintained by the BASILISK-X repository owner before being treated as an engineering reference.
+
 ## References
 
 * [AVS Lab Basilisk GitHub Repository](https://github.com/AVSLab/basilisk)
