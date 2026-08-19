@@ -183,6 +183,34 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   ├── PRV.py
 │   └── __init__.py
 ├── BASILISK-X
+│   ├── docs
+│   │   ├── reference
+│   │   │   ├── README.md
+│   │   │   ├── example_capability_index.md
+│   │   │   ├── example_tree_and_asset_map.md
+│   │   │   ├── frame_unit_and_initialization_checklists.md
+│   │   │   └── module_and_message_glossary.md
+│   │   ├── 00_scope_versions_and_source_provenance.md
+│   │   ├── 01_architecture_execution_and_lifecycle.md
+│   │   ├── 02_messages_time_ordering_frames_and_units.md
+│   │   ├── 03_simulation_workflow_fidelity_and_validation.md
+│   │   ├── 04_orbits_environment_and_mission_analysis.md
+│   │   ├── 05_spacecraft_dynamics_effectors_and_multibody.md
+│   │   ├── 06_attitude_guidance_navigation_and_control.md
+│   │   ├── 07_actuators_propulsion_and_resources.md
+│   │   ├── 08_sensors_estimation_access_and_communications.md
+│   │   ├── 09_multi_spacecraft_relative_motion_and_rpo.md
+│   │   ├── 10_modes_events_faults_and_mission_autonomy.md
+│   │   ├── 11_monte_carlo_uncertainty_and_statistics.md
+│   │   ├── 12_optical_navigation.md
+│   │   ├── 13_mujoco_robotics_contact_and_deployables.md
+│   │   ├── 14_bsk_rl_and_decision_autonomy.md
+│   │   ├── 15_reusable_patterns_and_minimal_skeletons.md
+│   │   ├── 16_pitfalls_debugging_and_validation.md
+│   │   ├── 17_basiliskx_architecture_and_extension_policy.md
+│   │   ├── 18_learning_roadmap.md
+│   │   ├── QUICK_START.md
+│   │   └── README.md
 │   ├── examples
 │   │   ├── BskSim
 │   │   │   ├── models
@@ -503,5 +531,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-85 directories, 414 files
+87 directories, 440 files
 ```
