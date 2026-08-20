@@ -527,9 +527,10 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │       ├── countries.geo.json
 │       └── finals2000A.all
 ├── .gitignore
+├── CITATION.cff
 ├── LICENSE
 ├── README.md
 └── STRUCTURE.md
 
-87 directories, 440 files
+87 directories, 441 files
 ```
