@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If this repository contributes to your work, please cite it using the information below."
+title: "Spacecraft Dynamics and Control"
+authors:
+  - given-names: "John"
+    family-names: "Gracious"
+url: "https://github.com/johnm3398/Spacecraft-Dynamics-and-Control"
+license: MIT
