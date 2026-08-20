@@ -468,17 +468,38 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   │   │   └── vizard
 │   │   │   │       └── cooperative_geo_rendezvous.bin
 │   │   │   └── cooperative_geo_rendezvous.py
-│   │   └── nadir_pointing
+│   │   ├── nadir_pointing
+│   │   │   ├── output
+│   │   │   │   ├── plots
+│   │   │   │   │   ├── attitude_error.png
+│   │   │   │   │   ├── control_torque.png
+│   │   │   │   │   ├── ground_track.png
+│   │   │   │   │   ├── nadir_pointing_error.png
+│   │   │   │   │   └── rate_error.png
+│   │   │   │   └── vizard
+│   │   │   │       └── nadir_pointing.bin
+│   │   │   └── nadir_pointing.py
+│   │   └── orbital_duet
 │   │       ├── output
 │   │       │   ├── plots
-│   │       │   │   ├── attitude_error.png
-│   │       │   │   ├── control_torque.png
-│   │       │   │   ├── ground_track.png
-│   │       │   │   ├── nadir_pointing_error.png
-│   │       │   │   └── rate_error.png
+│   │       │   │   ├── deputy_aocs.png
+│   │       │   │   ├── environment_drag.png
+│   │       │   │   ├── inertial_trajectories.png
+│   │       │   │   ├── phasing_comparison.png
+│   │       │   │   ├── relative_orbit_metrics.png
+│   │       │   │   └── relative_rtn_position.png
 │   │       │   └── vizard
-│   │       │       └── nadir_pointing.bin
-│   │       └── nadir_pointing.py
+│   │       │       └── orbital_duet.bin
+│   │       ├── analysis.py
+│   │       ├── aocs.py
+│   │       ├── config.py
+│   │       ├── environment.py
+│   │       ├── main.py
+│   │       ├── mission_plan.py
+│   │       ├── propulsion.py
+│   │       ├── spacecraft_model.py
+│   │       ├── test_orbital_duet.py
+│   │       └── visualization.py
 │   ├── src
 │   │   └── basiliskx
 │   │       ├── visualization
@@ -532,5 +553,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-87 directories, 441 files
+91 directories, 458 files
 ```
