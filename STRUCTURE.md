@@ -89,7 +89,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   │   ├── 3 - Attitude control of states and rates.pdf
 │   │   │   └── 4 - Alternate Attitude Control Formulations.pdf
 │   │   ├── media
-│   │   │   └── three_link_lyapunov_controller_comparison.gif
+│   │   │   ├── three_link_lyapunov_controller_comparison.gif
+│   │   │   └── three_link_state_based_lyapunov_control.gif
 │   │   ├── Module 1 - Nonlinear Stability Definitions.ipynb
 │   │   ├── Module 2 - Overview of Lyapunov Stability Theory.ipynb
 │   │   ├── Module 3 - Attitude Control of States and Rates.ipynb
@@ -555,5 +556,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-92 directories, 459 files
+92 directories, 460 files
 ```
