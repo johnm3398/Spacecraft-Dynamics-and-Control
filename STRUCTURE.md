@@ -548,16 +548,18 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── custom.geo.json
 │   │   ├── customHigh.geo.json
 │   │   └── mapcoastline.geo.json
-│   └── Earth Orientation Parameters Study
-│       ├── EOP-All.csv
-│       ├── EOP_Theory_and_Implementation.ipynb
-│       ├── countries.geo.json
-│       └── finals2000A.all
+│   ├── Earth Orientation Parameters Study
+│   │   ├── EOP-All.csv
+│   │   ├── EOP_Theory_and_Implementation.ipynb
+│   │   ├── countries.geo.json
+│   │   └── finals2000A.all
+│   └── Numerical Integration Methods
+│       └── TODO.md
 ├── .gitignore
 ├── CITATION.cff
 ├── LICENSE
 ├── README.md
 └── STRUCTURE.md
 
-93 directories, 462 files
+94 directories, 463 files
 ```
