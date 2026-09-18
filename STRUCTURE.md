@@ -154,7 +154,8 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │   ├── Module 1 - Revisiting Basics of Spacecraft Kinematics.ipynb
 │   │   ├── Module 2 - Revisiting Basics of Spacecraft Kinetics.ipynb
 │   │   ├── Module 3 - Revisiting Basics of Nonlinear Spacecraft Control.ipynb
-│   │   └── Module 4 - VSCMG Dynamics.ipynb
+│   │   ├── Module 4 - VSCMG Dynamics.ipynb
+│   │   └── Module 5 - 3-Axis Attitude Feedback Control .ipynb
 │   └── README.md
 ├── 03_spacecraft_formation_relative_orbits_specialization
 │   ├── 01_relative_motion_kinematics_and_kinetics
@@ -561,5 +562,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-94 directories, 463 files
+94 directories, 464 files
 ```
