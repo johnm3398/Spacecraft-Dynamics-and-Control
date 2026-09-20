@@ -537,6 +537,7 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │       ├── Jet_Fighter.obj
 │   │       └── jet fighter text.txt
 │   └── logo
+│       ├── Spacecraft-dynamics-and-control-logo-AI-generated.jpg
 │       ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
 │       └── Untitled design.png
 ├── studies
@@ -562,5 +563,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-94 directories, 464 files
+94 directories, 465 files
 ```
