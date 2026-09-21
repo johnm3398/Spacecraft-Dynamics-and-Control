@@ -537,9 +537,11 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 │   │       ├── Jet_Fighter.obj
 │   │       └── jet fighter text.txt
 │   └── logo
+│       ├── Spacecraft-dynamics-and-control-logo-AI-generated-v1.png
 │       ├── Spacecraft-dynamics-and-control-logo-AI-generated.jpg
 │       ├── Spacecraft-dynamics-and-control-logo-AI-generated.png
-│       └── Untitled design.png
+│       ├── Untitled design.png
+│       └── spacecraft-dynamics-control-github-social-preview-1280x640.png
 ├── studies
 │   ├── Attitude Dynamics and Control
 │   │   └── Body_Rate_from_Quaternions.ipynb
@@ -563,5 +565,5 @@ This file is auto-generated on every push to `main` and reflects the full reposi
 ├── README.md
 └── STRUCTURE.md
 
-94 directories, 465 files
+94 directories, 467 files
 ```
