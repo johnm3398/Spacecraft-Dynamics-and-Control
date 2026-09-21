@@ -2,7 +2,7 @@
 
 <p align="center">
   <img
-    src="./assets/logo/Spacecraft-dynamics-and-control-logo-AI-generated.png"
+    src="./assets/logo/Spacecraft-dynamics-and-control-logo-AI-generated-v1.png"
     alt="Spacecraft Dynamics and Control"
     width="850"
   />
